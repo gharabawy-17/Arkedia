@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Wishlist — ARKEDIA</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/style.css"/>
+<script>tailwind.config={theme:{extend:{colors:{cream:'#F6F3EF',gold:'#C8A46A',ink:'#0C0C0C',muted:'#888888'},fontFamily:{serif:['Playfair Display','serif'],sans:['Inter','sans-serif']}}}}</script>
+</head>
+<body>
+
+<div id="page-loader"><div class="loader-logo">Arkedia</div></div>
+<div id="toast">
+  <svg id="toast-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toast-icon"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  <span id="toast-msg">Added to bag</span>
+</div>
+<div id="overlay"></div>
+
+<!-- CART DRAWER -->
+<aside id="cart-drawer">
+  <div class="cart-header">
+    <div>
+      <p class="label" style="color:var(--muted);margin-bottom:2px">Your</p>
+      <h3 style="font-family:var(--serif);font-size:20px;font-weight:700">Shopping Bag <span id="cart-count-label" style="font-size:13px;font-weight:400;font-family:var(--sans);color:var(--muted)"></span></h3>
+    </div>
+    <button onclick="closeCart()" class="nav-icon-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div id="cart-empty" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 40px;flex:1">
+    <svg width="60" height="60" fill="none" stroke="var(--border)" viewBox="0 0 24 24" stroke-width="1" style="margin-bottom:16px"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+    <p style="font-family:var(--serif);font-size:20px;margin-bottom:8px">Your bag is empty</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:24px">Discover pieces you love</p>
+    <a href="shop.html" onclick="closeCart()" class="btn btn-primary">Shop Now</a>
+  </div>
+  <div class="cart-footer" id="cart-footer-el">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <span style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)">Subtotal</span>
+      <span id="cart-total" style="font-family:var(--serif);font-size:24px;font-weight:700">$0</span>
+    </div>
+    <a href="cart.html" class="btn btn-primary btn-block btn-lg" style="margin-bottom:12px;display:flex">View Bag & Checkout</a>
+    <button onclick="closeCart()" class="btn btn-outline btn-block">Continue Shopping</button>
+  </div>
+</aside>
+
+<!-- MOBILE NAV -->
+<div id="mobile-nav">
+  <nav>
+    <a href="index.html" class="mobile-nav-link">Home</a>
+    <a href="shop.html" class="mobile-nav-link">Shop All</a>
+    <a href="shop.html?cat=dresses" class="mobile-nav-link">Dresses</a>
+    <a href="shop.html?cat=jackets" class="mobile-nav-link">Jackets</a>
+    <a href="shop.html?cat=tops" class="mobile-nav-link">Tops</a>
+    <a href="shop.html?cat=bottoms" class="mobile-nav-link">Bottoms</a>
+    <a href="about.html" class="mobile-nav-link">About</a>
+    <a href="contact.html" class="mobile-nav-link">Contact</a>
+    <a href="shop.html?sale=true" class="mobile-nav-link" style="color:var(--gold)">Sale ✦</a>
+  </nav>
+  <div style="margin-top:32px;display:flex;gap:16px">
+    <a href="cart.html" style="font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)" onclick="closeMenu()">Cart</a>
+    <span style="color:var(--muted)">·</span>
+    <a href="about.html" style="font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)" onclick="closeMenu()">About</a>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann-bar">
+  <div class="ann-inner">
+    <span style="padding:0 32px">FREE SHIPPING OVER $150</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">NEW DROPS EVERY FRIDAY</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">30-DAY FREE RETURNS</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">USE CODE ARKEDIA10 FOR 10% OFF</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">FREE SHIPPING OVER $150</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">NEW DROPS EVERY FRIDAY</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">30-DAY FREE RETURNS</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">USE CODE ARKEDIA10 FOR 10% OFF</span><span style="color:var(--gold);padding:0 12px">✦</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<header id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <div style="display:flex;align-items:center;gap:16px">
+        <button class="hamburger hide-desktop" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+        <nav class="nav-links hide-mobile">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="shop.html" class="nav-link">Shop</a>
+          <a href="shop.html?cat=dresses" class="nav-link">Dresses</a>
+          <a href="shop.html?cat=jackets" class="nav-link">Jackets</a>
+        </nav>
+      </div>
+      <a href="index.html" class="nav-logo">Arkedia</a>
+      <div class="nav-actions">
+        <a href="shop.html" class="nav-icon-btn hide-mobile" title="Search">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </a>
+        <a href="about.html" class="nav-icon-btn hide-mobile" title="Account">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+        <a href="wishlist.html" class="nav-icon-btn" title="Wishlist" style="position:relative;color:var(--gold)">
+          <svg width="18" height="18" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+          <span class="wishlist-badge"></span>
+        </a>
+        <button onclick="openCart()" class="nav-icon-btn" title="Cart" style="position:relative">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+          <span class="cart-badge">0</span>
+        </button>
+      </div>
+    </div>
+    <div class="nav-subnav hide-mobile">
+      <a href="shop.html?cat=tops" class="subnav-link">Tops</a>
+      <a href="shop.html?cat=bottoms" class="subnav-link">Bottoms</a>
+      <a href="shop.html?cat=sets" class="subnav-link">Sets</a>
+      <a href="about.html" class="subnav-link">About</a>
+      <a href="contact.html" class="subnav-link">Contact</a>
+      <a href="shop.html?sale=true" class="subnav-link sale">Sale ✦</a>
+    </div>
+  </div>
+</header>
+
+<!-- PAGE HEADER -->
+<div style="background:var(--bg-alt);padding:48px 0 40px;border-bottom:1px solid var(--border)">
+  <div class="container">
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Wishlist</span>
+    </nav>
+    <div style="margin-top:16px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <div>
+        <span class="gold-bar"></span>
+        <h1 class="display-md">My Wishlist</h1>
+        <p id="wish-count-label" style="font-size:13px;color:var(--muted);margin-top:6px"></p>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <button id="add-all-btn" onclick="addAllToCart()" class="btn btn-primary btn-sm" style="display:none">Add All to Bag</button>
+        <button id="clear-btn" onclick="clearWishlist()" class="btn btn-outline btn-sm" style="display:none">Clear Wishlist</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WISHLIST PRODUCTS -->
+<section class="section">
+  <div class="container">
+
+    <!-- Empty state -->
+    <div id="wish-empty" style="display:none;text-align:center;padding:80px 20px">
+      <svg width="72" height="72" fill="none" stroke="var(--border)" viewBox="0 0 24 24" stroke-width="1" style="margin:0 auto 24px;display:block"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+      <h2 style="font-family:var(--serif);font-size:28px;font-weight:700;margin-bottom:12px">Your wishlist is empty</h2>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:32px;max-width:360px;margin-left:auto;margin-right:auto">Save pieces you love while you browse — tap the ♡ on any product.</p>
+      <a href="shop.html" class="btn btn-primary btn-lg">Explore the Collection</a>
+    </div>
+
+    <!-- Products grid -->
+    <div id="wish-grid" class="products-grid"></div>
+
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter-section">
+  <div class="container reveal">
+    <span class="gold-bar" style="margin:0 auto 20px"></span>
+    <p class="label" style="color:rgba(255,255,255,.4);margin-bottom:12px;text-align:center">Join the Club</p>
+    <h2 class="display-md" style="color:#fff;text-align:center;margin-bottom:16px">Get 10% Off Your First Order</h2>
+    <p style="font-size:14px;color:rgba(255,255,255,.45);text-align:center;margin-bottom:32px;max-width:400px;margin-left:auto;margin-right:auto">Be first to know about new arrivals, exclusive offers, and styling inspiration.</p>
+    <form id="newsletter-form" class="newsletter-form" style="margin:0 auto">
+      <input type="email" placeholder="Your email address" required/>
+      <button type="submit">Subscribe</button>
+    </form>
+    <p style="font-size:11px;color:rgba(255,255,255,.2);text-align:center;margin-top:16px">No spam. Unsubscribe anytime.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" style="font-family:var(--serif);font-size:22px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:16px">Arkedia</a>
+        <p style="font-size:13px;color:rgba(255,255,255,.38);line-height:1.8;max-width:260px;margin-bottom:24px">Curated fashion that blends modern sensibility with timeless elegance. For the woman who moves with intention.</p>
+        <div style="display:flex;gap:8px">
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.67a8.24 8.24 0 004.83 1.55V6.77a4.85 4.85 0 01-1.06-.08z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Shop</p>
+        <a href="shop.html" class="footer-link">New Arrivals</a>
+        <a href="shop.html?sort=popular" class="footer-link">Best Sellers</a>
+        <a href="shop.html?cat=dresses" class="footer-link">Dresses</a>
+        <a href="shop.html?cat=jackets" class="footer-link">Jackets & Coats</a>
+        <a href="shop.html?sale=true" class="footer-link" style="color:var(--gold)">Sale</a>
+      </div>
+      <div>
+        <p class="footer-col-title">Help</p>
+        <a href="contact.html" class="footer-link">Size Guide</a>
+        <a href="contact.html" class="footer-link">Shipping & Returns</a>
+        <a href="contact.html" class="footer-link">Track My Order</a>
+        <a href="contact.html" class="footer-link">FAQ</a>
+        <a href="contact.html" class="footer-link">Contact Us</a>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <a href="about.html" class="footer-link">About Arkedia</a>
+        <a href="about.html" class="footer-link">Sustainability</a>
+        <a href="about.html" class="footer-link">Careers</a>
+        <a href="about.html" class="footer-link">Press</a>
+      </div>
+    </div>
+    <div class="footer-subscribe">
+      <div>
+        <p class="footer-col-title" style="margin-bottom:4px">Stay in the Loop</p>
+        <p style="font-size:12px;color:rgba(255,255,255,.38)">New arrivals, exclusive offers, and style notes.</p>
+      </div>
+      <form id="footer-newsletter-form" class="footer-subscribe-form">
+        <input type="email" placeholder="Enter your email" required/>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Arkedia. All rights reserved.</p>
+      <div style="display:flex;gap:24px">
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Privacy Policy</a>
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Terms of Service</a>
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Cookies</a>
+      </div>
+      <div style="display:flex;gap:6px">
+        <span class="payment-chip">VISA</span>
+        <span class="payment-chip">MC</span>
+        <span class="payment-chip">AMEX</span>
+        <span class="payment-chip">PayPal</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- MOBILE BAR -->
+<div id="mobile-bar">
+  <div class="mobile-bar-inner">
+    <a href="index.html" class="mobile-bar-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="shop.html" class="mobile-bar-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Shop
+    </a>
+    <button onclick="openCart()" class="mobile-bar-btn cart-btn" style="position:relative;background:none;border:none">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+      <span class="cart-badge">0</span>
+      Bag
+    </button>
+    <a href="wishlist.html" class="mobile-bar-btn active" style="color:var(--gold)">
+      <svg width="20" height="20" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+      Saved
+    </a>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+function updateWishlistBadge() {
+  const count = store.wishlist.length;
+  document.querySelectorAll('.wishlist-badge').forEach(el => {
+    el.textContent = count || '';
+    el.classList.toggle('show', count > 0);
+  });
+}
+const _origToggleWish = store.toggleWishlist.bind(store);
+store.toggleWishlist = function(id) {
+  _origToggleWish(id);
+  updateWishlistBadge();
+  renderWishlist();
+};
+
+function addAllToCart() {
+  store.wishlist.forEach(id => {
+    const p = PRODUCTS.find(x => x.id === id);
+    if (p) store.addToCart(id, p.sizes[0], 1);
+  });
+  openCart();
+}
+
+function clearWishlist() {
+  store.wishlist = [];
+  store.save();
+  updateWishlistBadge();
+  renderWishlist();
+  showToast('Wishlist cleared', 'info');
+}
+
+function renderWishlist() {
+  const grid = document.getElementById('wish-grid');
+  const empty = document.getElementById('wish-empty');
+  const addAllBtn = document.getElementById('add-all-btn');
+  const clearBtn = document.getElementById('clear-btn');
+  const countLabel = document.getElementById('wish-count-label');
+
+  const wishedProducts = PRODUCTS.filter(p => store.wishlist.includes(p.id));
+
+  if (wishedProducts.length === 0) {
+    grid.style.display = 'none';
+    empty.style.display = 'block';
+    if (addAllBtn) addAllBtn.style.display = 'none';
+    if (clearBtn) clearBtn.style.display = 'none';
+    countLabel.textContent = '';
+  } else {
+    grid.style.display = '';
+    empty.style.display = 'none';
+    if (addAllBtn) addAllBtn.style.display = '';
+    if (clearBtn) clearBtn.style.display = '';
+    countLabel.textContent = wishedProducts.length + (wishedProducts.length === 1 ? ' item saved' : ' items saved');
+    grid.innerHTML = wishedProducts.map((p, i) => renderProductCard(p, { delay: i * 0.06 })).join('');
+    initReveal();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderWishlist();
+  updateWishlistBadge();
+  handleNewsletter('newsletter-form');
+  handleNewsletter('footer-newsletter-form');
+});
+</script>
+</body>
+</html>

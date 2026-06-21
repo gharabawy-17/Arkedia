@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Product — ARKEDIA</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/style.css"/>
+<script>tailwind.config={theme:{extend:{colors:{cream:'#F6F3EF',gold:'#C8A46A',ink:'#0C0C0C',muted:'#888888'},fontFamily:{serif:['Playfair Display','serif'],sans:['Inter','sans-serif']}}}}</script>
+</head>
+<body>
+
+<div id="page-loader"><div class="loader-logo">Arkedia</div></div>
+<div id="toast">
+  <svg id="toast-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toast-icon"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  <span id="toast-msg">Added to bag</span>
+</div>
+<div id="overlay"></div>
+
+<!-- CART DRAWER -->
+<aside id="cart-drawer">
+  <div class="cart-header">
+    <div>
+      <p class="label" style="color:var(--muted);margin-bottom:2px">Your</p>
+      <h3 style="font-family:var(--serif);font-size:20px;font-weight:700">Shopping Bag <span id="cart-count-label" style="font-size:13px;font-weight:400;font-family:var(--sans);color:var(--muted)"></span></h3>
+    </div>
+    <button onclick="closeCart()" class="nav-icon-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div id="cart-empty" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 40px;flex:1">
+    <svg width="60" height="60" fill="none" stroke="var(--border)" viewBox="0 0 24 24" stroke-width="1" style="margin-bottom:16px"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+    <p style="font-family:var(--serif);font-size:20px;margin-bottom:8px">Your bag is empty</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:24px">Discover pieces you love</p>
+    <a href="shop.html" onclick="closeCart()" class="btn btn-primary">Shop Now</a>
+  </div>
+  <div class="cart-footer" id="cart-footer-el">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <span style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)">Subtotal</span>
+      <span id="cart-total" style="font-family:var(--serif);font-size:24px;font-weight:700">$0</span>
+    </div>
+    <a href="cart.html" class="btn btn-primary btn-block btn-lg" style="margin-bottom:12px;display:flex">View Bag & Checkout</a>
+    <button onclick="closeCart()" class="btn btn-outline btn-block">Continue Shopping</button>
+  </div>
+</aside>
+
+<!-- MOBILE NAV -->
+<div id="mobile-nav">
+  <nav>
+    <a href="index.html" class="mobile-nav-link">Home</a>
+    <a href="shop.html" class="mobile-nav-link">Shop All</a>
+    <a href="shop.html?cat=dresses" class="mobile-nav-link">Dresses</a>
+    <a href="shop.html?cat=jackets" class="mobile-nav-link">Jackets</a>
+    <a href="shop.html?cat=tops" class="mobile-nav-link">Tops</a>
+    <a href="shop.html?cat=bottoms" class="mobile-nav-link">Bottoms</a>
+    <a href="about.html" class="mobile-nav-link">About</a>
+    <a href="contact.html" class="mobile-nav-link">Contact</a>
+    <a href="shop.html?sale=true" class="mobile-nav-link" style="color:var(--gold)">Sale ✦</a>
+  </nav>
+  <div style="margin-top:32px;display:flex;gap:16px">
+    <a href="cart.html" style="font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)" onclick="closeMenu()">Cart</a>
+    <span style="color:var(--muted)">·</span>
+    <a href="about.html" style="font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)" onclick="closeMenu()">About</a>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann-bar">
+  <div class="ann-inner">
+    <span style="padding:0 32px">FREE SHIPPING OVER $150</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">NEW DROPS EVERY FRIDAY</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">30-DAY FREE RETURNS</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">USE CODE ARKEDIA10 FOR 10% OFF</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">FREE SHIPPING OVER $150</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">NEW DROPS EVERY FRIDAY</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">30-DAY FREE RETURNS</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">USE CODE ARKEDIA10 FOR 10% OFF</span><span style="color:var(--gold);padding:0 12px">✦</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<header id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <div style="display:flex;align-items:center;gap:16px">
+        <button class="hamburger hide-desktop" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+        <nav class="nav-links hide-mobile">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="shop.html" class="nav-link active">Shop</a>
+          <a href="shop.html?cat=dresses" class="nav-link">Dresses</a>
+          <a href="shop.html?cat=jackets" class="nav-link">Jackets</a>
+        </nav>
+      </div>
+      <a href="index.html" class="nav-logo">Arkedia</a>
+      <div class="nav-actions">
+        <a href="shop.html" class="nav-icon-btn hide-mobile" title="Search">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </a>
+        <a href="about.html" class="nav-icon-btn hide-mobile" title="Account">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+        <a href="wishlist.html" class="nav-icon-btn" title="Wishlist" style="position:relative">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+          <span class="wishlist-badge"></span>
+        </a>
+        <button onclick="openCart()" class="nav-icon-btn" title="Cart" style="position:relative">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+          <span class="cart-badge">0</span>
+        </button>
+      </div>
+    </div>
+    <div class="nav-subnav hide-mobile">
+      <a href="shop.html?cat=tops" class="subnav-link">Tops</a>
+      <a href="shop.html?cat=bottoms" class="subnav-link">Bottoms</a>
+      <a href="shop.html?cat=sets" class="subnav-link">Sets</a>
+      <a href="about.html" class="subnav-link">About</a>
+      <a href="contact.html" class="subnav-link">Contact</a>
+      <a href="shop.html?sale=true" class="subnav-link sale">Sale ✦</a>
+    </div>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<div style="border-bottom:1px solid var(--border)">
+  <div class="container">
+    <nav class="breadcrumb" id="breadcrumb-nav">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="shop.html">Shop</a>
+      <span class="breadcrumb-sep">›</span>
+      <span id="breadcrumb-cat">Category</span>
+      <span class="breadcrumb-sep">›</span>
+      <span id="breadcrumb-name">Product</span>
+    </nav>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL -->
+<section class="section">
+  <div class="container">
+    <div id="product-detail-layout" class="cols-product">
+
+      <!-- LEFT: Gallery -->
+      <div class="product-gallery">
+        <div class="gallery-main" id="gallery-main">
+          <img id="main-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;transition:opacity .3s"/>
+        </div>
+        <div class="gallery-thumbs" id="gallery-thumbs" style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"></div>
+      </div>
+
+      <!-- RIGHT: Product Info -->
+      <div id="product-info" class="reveal-right"></div>
+    </div>
+
+    <!-- TABS -->
+    <div id="product-tabs-section" style="margin-top:56px"></div>
+  </div>
+</section>
+
+<!-- RELATED PRODUCTS -->
+<section class="section" style="background:var(--bg-alt)">
+  <div class="container">
+    <div style="margin-bottom:40px" class="reveal">
+      <span class="gold-bar"></span>
+      <p class="label" style="color:var(--muted);margin-bottom:8px">Discover More</p>
+      <h2 class="display-md">You May Also Like</h2>
+    </div>
+    <div class="products-grid" id="related-grid"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" style="font-family:var(--serif);font-size:22px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:16px">Arkedia</a>
+        <p style="font-size:13px;color:rgba(255,255,255,.38);line-height:1.8;max-width:260px;margin-bottom:24px">Curated fashion that blends modern sensibility with timeless elegance. For the woman who moves with intention.</p>
+        <div style="display:flex;gap:8px">
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.67a8.24 8.24 0 004.83 1.55V6.77a4.85 4.85 0 01-1.06-.08z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Shop</p>
+        <a href="shop.html" class="footer-link">New Arrivals</a>
+        <a href="shop.html?sort=popular" class="footer-link">Best Sellers</a>
+        <a href="shop.html?cat=dresses" class="footer-link">Dresses</a>
+        <a href="shop.html?cat=jackets" class="footer-link">Jackets & Coats</a>
+        <a href="shop.html?sale=true" class="footer-link" style="color:var(--gold)">Sale</a>
+      </div>
+      <div>
+        <p class="footer-col-title">Help</p>
+        <a href="contact.html" class="footer-link">Size Guide</a>
+        <a href="contact.html" class="footer-link">Shipping & Returns</a>
+        <a href="contact.html" class="footer-link">Track My Order</a>
+        <a href="contact.html" class="footer-link">FAQ</a>
+        <a href="contact.html" class="footer-link">Contact Us</a>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <a href="about.html" class="footer-link">About Arkedia</a>
+        <a href="about.html" class="footer-link">Sustainability</a>
+        <a href="about.html" class="footer-link">Careers</a>
+        <a href="about.html" class="footer-link">Press</a>
+      </div>
+    </div>
+    <!-- <div class="footer-subscribe">
+      <div>
+        <p class="footer-col-title" style="margin-bottom:4px">Stay in the Loop</p>
+        <p style="font-size:12px;color:rgba(255,255,255,.38)">New arrivals, exclusive offers, and style notes.</p>
+      </div>
+      <form id="footer-newsletter-form" class="footer-subscribe-form">
+        <input type="email" placeholder="Enter your email" required/>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div> -->
+    <div class="footer-bottom">
+      <p>© 2025 Arkedia. All rights reserved.</p>
+      <div style="display:flex;gap:24px">
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Privacy Policy</a>
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Terms of Service</a>
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Cookies</a>
+      </div>
+      <div style="display:flex;gap:6px">
+        <span class="payment-chip">VISA</span>
+        <span class="payment-chip">MC</span>
+        <span class="payment-chip">AMEX</span>
+        <span class="payment-chip">PayPal</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="mobile-bar">
+  <div class="mobile-bar-inner">
+    <a href="index.html" class="mobile-bar-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="shop.html" class="mobile-bar-btn active">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Shop
+    </a>
+    <button onclick="openCart()" class="mobile-bar-btn cart-btn" style="position:relative;background:none;border:none">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+      <span class="cart-badge">0</span>
+      Bag
+    </button>
+    <a href="about.html" class="mobile-bar-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      About
+    </a>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+function updateWishlistBadge() {
+  const count = store.wishlist.length;
+  document.querySelectorAll('.wishlist-badge').forEach(el => {
+    el.textContent = count || '';
+    el.classList.toggle('show', count > 0);
+  });
+}
+const _origToggleWish = store.toggleWishlist.bind(store);
+store.toggleWishlist = function(id) { _origToggleWish(id); updateWishlistBadge(); };
+
+let currentProduct = null;
+let selectedSize = null;
+let selectedColorIndex = 0;
+
+function renderStars(rating) {
+  return Array(5).fill(0).map((_, i) =>
+    `<svg viewBox="0 0 24 24" width="16" height="16" fill="${i < Math.floor(rating) ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.5"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>`
+  ).join('');
+}
+
+function setMainImage(src, thumbIndex) {
+  const mainImg = document.getElementById('main-img');
+  if (mainImg) {
+    mainImg.style.opacity = '0';
+    setTimeout(() => { mainImg.src = src; mainImg.style.opacity = '1'; }, 150);
+  }
+  document.querySelectorAll('.gallery-thumb-wrap').forEach((wrap, i) => {
+    wrap.classList.toggle('active', i === thumbIndex);
+    const img = wrap.querySelector('.gallery-thumb');
+    if (img) img.classList.toggle('active', i === thumbIndex);
+  });
+}
+
+function selectSize(btn, sizeVal) {
+  document.querySelectorAll('.size-option').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedSize = sizeVal;
+  const sizeError = document.getElementById('size-error');
+  if (sizeError) sizeError.style.display = 'none';
+}
+
+function selectColor(dot, index) {
+  document.querySelectorAll('.product-color-dot').forEach(d => d.classList.remove('active'));
+  dot.classList.add('active');
+  selectedColorIndex = index;
+  if (currentProduct && currentProduct.images[index]) {
+    setMainImage(currentProduct.images[index], index < currentProduct.images.length ? index : 0);
+  }
+}
+
+function addToBag() {
+  if (!selectedSize) {
+    const sizeError = document.getElementById('size-error');
+    if (sizeError) { sizeError.style.display = 'block'; }
+    showToast('Please select a size', 'info');
+    document.getElementById('size-section')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  store.addToCart(currentProduct.id, selectedSize);
+  openCart();
+}
+
+function toggleWishlistBtn() {
+  store.toggleWishlist(currentProduct.id);
+  const btn = document.getElementById('wishlist-btn');
+  const isWished = store.isWishlisted(currentProduct.id);
+  if (btn) {
+    btn.innerHTML = isWished
+      ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" style="color:var(--gold)"><path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg> Saved`
+      : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg> Save to Wishlist`;
+  }
+}
+
+function switchTab(tabId) {
+  document.querySelectorAll('.product-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.product-tab[data-tab="${tabId}"]`)?.classList.add('active');
+  document.getElementById('tab-' + tabId)?.classList.add('active');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get('id')) || 1;
+  currentProduct = PRODUCTS.find(p => p.id === id) || PRODUCTS[0];
+  const product = currentProduct;
+
+  // Update page title
+  document.title = product.name + ' — ARKEDIA';
+
+  // Breadcrumb
+  const catEl = document.getElementById('breadcrumb-cat');
+  const nameEl = document.getElementById('breadcrumb-name');
+  const catLabel = product.category.charAt(0).toUpperCase() + product.category.slice(1);
+  if (catEl) catEl.innerHTML = `<a href="shop.html?cat=${product.category}" style="transition:color .2s" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color=''">${catLabel}</a>`;
+  if (nameEl) nameEl.textContent = product.name;
+
+  // Main image
+  const mainImg = document.getElementById('main-img');
+  if (mainImg) { mainImg.src = product.images[0]; mainImg.alt = product.name; }
+
+  // Thumbnails
+  const thumbsContainer = document.getElementById('gallery-thumbs');
+  if (thumbsContainer) {
+    thumbsContainer.innerHTML = product.images.map((img, i) => `
+      <div class="gallery-thumb-wrap ${i === 0 ? 'active' : ''}" onclick="setMainImage('${img}', ${i})" style="cursor:pointer">
+        <img src="${img}" alt="${product.name} view ${i+1}" class="gallery-thumb ${i === 0 ? 'active' : ''}"/>
+      </div>
+    `).join('');
+  }
+
+  // Discount calc
+  const disc = product.originalPrice ? Math.round((1 - product.price / product.originalPrice) * 100) : null;
+
+  // Product info
+  const infoContainer = document.getElementById('product-info');
+  if (infoContainer) {
+    const isWished = store.isWishlisted(product.id);
+    infoContainer.innerHTML = `
+      <p class="label" style="color:var(--muted);margin-bottom:8px">${product.material}</p>
+      <h1 style="font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.8rem);font-weight:700;line-height:1.1;margin-bottom:12px">${product.name}</h1>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+        <div class="stars" style="color:var(--gold)">${renderStars(product.rating)}</div>
+        <a href="#reviews" style="font-size:13px;color:var(--muted);transition:color .2s" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">${product.rating} (${product.reviewCount} reviews)</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px">
+        <span style="font-family:var(--serif);font-size:2rem;font-weight:700">$${product.price}</span>
+        ${product.originalPrice ? `<span style="font-size:16px;color:var(--muted);text-decoration:line-through">$${product.originalPrice}</span><span style="font-size:12px;color:var(--error);font-weight:700;background:rgba(239,68,68,.08);padding:3px 8px">-${disc}%</span>` : ''}
+      </div>
+      ${product.price >= 150 ? `<p style="font-size:12px;color:var(--success);margin-bottom:20px;display:flex;align-items:center;gap:6px"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Free shipping on this order</p>` : `<p style="font-size:12px;color:var(--muted);margin-bottom:20px">Free shipping on orders over $150</p>`}
+      <div style="border-top:1px solid var(--border);padding-top:24px;margin-bottom:24px">
+        <p style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin-bottom:14px">Colour — <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)" id="color-name">${product.colors[0].name}</span></p>
+        <div style="display:flex;gap:10px">
+          ${product.colors.map((c, i) => `
+            <div class="color-dot product-color-dot ${i === 0 ? 'active' : ''}" style="width:28px;height:28px;background:${c.hex};border-radius:50%;border:1px solid rgba(0,0,0,.1);cursor:pointer;transition:all .2s" title="${c.name}"
+              onclick="selectColor(this, ${i}); document.getElementById('color-name').textContent='${c.name}'"></div>
+          `).join('')}
+        </div>
+      </div>
+      <div id="size-section" style="margin-bottom:28px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <p style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600">Size</p>
+          <a href="#tab-sizeguide" onclick="switchTab('sizeguide')" style="font-size:11px;color:var(--muted);text-decoration:underline;cursor:pointer;transition:color .2s" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">Size Guide</a>
+        </div>
+        <div class="size-grid">
+          ${product.sizes.map(s => `<div class="size-option" onclick="selectSize(this, '${s}')">${s}</div>`).join('')}
+        </div>
+        <p id="size-error" style="display:none;font-size:12px;color:var(--error);margin-top:8px">Please select a size to continue.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px">
+        <button onclick="addToBag()" class="btn btn-primary btn-lg btn-block" style="display:flex">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+          Add to Bag
+        </button>
+        <button id="wishlist-btn" onclick="toggleWishlistBtn()" class="btn btn-outline btn-lg btn-block" style="display:flex">
+          ${isWished ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" style="color:var(--gold)"><path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg> Saved` : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg> Save to Wishlist`}
+        </button>
+      </div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.8;border-top:1px solid var(--border);padding-top:24px">${product.description}</p>
+    `;
+  }
+
+  // Tabs
+  const tabsSection = document.getElementById('product-tabs-section');
+  if (tabsSection) {
+    const sizeGuideRows = [
+      ['XS', '31"', '24"', '33"'],
+      ['S',  '33"', '26"', '35"'],
+      ['M',  '35"', '28"', '37"'],
+      ['L',  '37"', '30"', '39"'],
+      ['XL', '39"', '32"', '41"'],
+    ];
+    tabsSection.innerHTML = `
+      <div class="product-detail-tabs">
+        <div class="product-tab active" data-tab="details" onclick="switchTab('details')">Details</div>
+        <div class="product-tab" data-tab="sizeguide" onclick="switchTab('sizeguide')">Size Guide</div>
+        <div class="product-tab" data-tab="care" onclick="switchTab('care')">Care</div>
+      </div>
+      <div id="tab-details" class="tab-content active">
+        <ul style="display:flex;flex-direction:column;gap:10px;padding:0;list-style:none">
+          ${product.details.map(d => `<li style="display:flex;align-items:flex-start;gap:10px"><span style="width:6px;height:6px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-top:7px"></span>${d}</li>`).join('')}
+        </ul>
+      </div>
+      <div id="tab-sizeguide" class="tab-content">
+        <p style="margin-bottom:20px;font-size:14px;color:var(--muted)">All measurements are in inches. Model is 5'9" wearing size S.</p>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:400px">
+            <thead>
+              <tr style="background:var(--bg-alt)">
+                <th style="padding:12px 16px;text-align:left;border:1px solid var(--border);font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:600">Size</th>
+                <th style="padding:12px 16px;text-align:center;border:1px solid var(--border);font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:600">Chest</th>
+                <th style="padding:12px 16px;text-align:center;border:1px solid var(--border);font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:600">Waist</th>
+                <th style="padding:12px 16px;text-align:center;border:1px solid var(--border);font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:600">Hip</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${sizeGuideRows.map((row, i) => `
+                <tr style="${i % 2 === 1 ? 'background:var(--bg-alt)' : ''}">
+                  <td style="padding:12px 16px;border:1px solid var(--border);font-weight:600">${row[0]}</td>
+                  <td style="padding:12px 16px;border:1px solid var(--border);text-align:center;color:var(--muted)">${row[1]}</td>
+                  <td style="padding:12px 16px;border:1px solid var(--border);text-align:center;color:var(--muted)">${row[2]}</td>
+                  <td style="padding:12px 16px;border:1px solid var(--border);text-align:center;color:var(--muted)">${row[3]}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="tab-care" class="tab-content">
+        <ul style="display:flex;flex-direction:column;gap:10px;padding:0;list-style:none">
+          ${product.care.map(c => `<li style="display:flex;align-items:flex-start;gap:10px"><span style="width:6px;height:6px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-top:7px"></span>${c}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+  }
+
+  // Related products (4, excluding current)
+  const related = PRODUCTS.filter(p => p.id !== product.id).slice(0, 4);
+  const relatedGrid = document.getElementById('related-grid');
+  if (relatedGrid) {
+    relatedGrid.innerHTML = related.map((p, i) => renderProductCard(p, { delay: i * 0.08 })).join('');
+  }
+
+  initReveal();
+  handleNewsletter('footer-newsletter-form');
+  updateWishlistBadge();
+});
+</script>
+</body>
+</html>

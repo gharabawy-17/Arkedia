@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Our Story — ARKEDIA</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/style.css"/>
+<script>tailwind.config={theme:{extend:{colors:{cream:'#F6F3EF',gold:'#C8A46A',ink:'#0C0C0C',muted:'#888888'},fontFamily:{serif:['Playfair Display','serif'],sans:['Inter','sans-serif']}}}}</script>
+</head>
+<body>
+
+<div id="page-loader"><div class="loader-logo">Arkedia</div></div>
+<div id="toast">
+  <svg id="toast-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toast-icon"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  <span id="toast-msg">Added to bag</span>
+</div>
+<div id="overlay"></div>
+
+<!-- CART DRAWER -->
+<aside id="cart-drawer">
+  <div class="cart-header">
+    <div>
+      <p class="label" style="color:var(--muted);margin-bottom:2px">Your</p>
+      <h3 style="font-family:var(--serif);font-size:20px;font-weight:700">Shopping Bag <span id="cart-count-label" style="font-size:13px;font-weight:400;font-family:var(--sans);color:var(--muted)"></span></h3>
+    </div>
+    <button onclick="closeCart()" class="nav-icon-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div id="cart-empty" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 40px;flex:1">
+    <svg width="60" height="60" fill="none" stroke="var(--border)" viewBox="0 0 24 24" stroke-width="1" style="margin-bottom:16px"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+    <p style="font-family:var(--serif);font-size:20px;margin-bottom:8px">Your bag is empty</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:24px">Discover pieces you love</p>
+    <a href="shop.html" onclick="closeCart()" class="btn btn-primary">Shop Now</a>
+  </div>
+  <div class="cart-footer" id="cart-footer-el">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <span style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)">Subtotal</span>
+      <span id="cart-total" style="font-family:var(--serif);font-size:24px;font-weight:700">$0</span>
+    </div>
+    <a href="cart.html" class="btn btn-primary btn-block btn-lg" style="margin-bottom:12px;display:flex">View Bag & Checkout</a>
+    <button onclick="closeCart()" class="btn btn-outline btn-block">Continue Shopping</button>
+  </div>
+</aside>
+
+<!-- MOBILE NAV -->
+<div id="mobile-nav">
+  <nav>
+    <a href="index.html" class="mobile-nav-link">Home</a>
+    <a href="shop.html" class="mobile-nav-link">Shop All</a>
+    <a href="shop.html?cat=dresses" class="mobile-nav-link">Dresses</a>
+    <a href="shop.html?cat=jackets" class="mobile-nav-link">Jackets</a>
+    <a href="shop.html?cat=tops" class="mobile-nav-link">Tops</a>
+    <a href="shop.html?cat=bottoms" class="mobile-nav-link">Bottoms</a>
+    <a href="about.html" class="mobile-nav-link">About</a>
+    <a href="contact.html" class="mobile-nav-link">Contact</a>
+    <a href="shop.html?sale=true" class="mobile-nav-link" style="color:var(--gold)">Sale ✦</a>
+  </nav>
+  <div style="margin-top:32px;display:flex;gap:16px">
+    <a href="cart.html" style="font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)" onclick="closeMenu()">Cart</a>
+    <span style="color:var(--muted)">·</span>
+    <a href="about.html" style="font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)" onclick="closeMenu()">About</a>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann-bar">
+  <div class="ann-inner">
+    <span style="padding:0 32px">FREE SHIPPING OVER $150</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">NEW DROPS EVERY FRIDAY</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">30-DAY FREE RETURNS</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">USE CODE ARKEDIA10 FOR 10% OFF</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">FREE SHIPPING OVER $150</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">NEW DROPS EVERY FRIDAY</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">30-DAY FREE RETURNS</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">USE CODE ARKEDIA10 FOR 10% OFF</span><span style="color:var(--gold);padding:0 12px">✦</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<header id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <div style="display:flex;align-items:center;gap:16px">
+        <button class="hamburger hide-desktop" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+        <nav class="nav-links hide-mobile">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="shop.html" class="nav-link">Shop</a>
+          <a href="shop.html?cat=dresses" class="nav-link">Dresses</a>
+          <a href="shop.html?cat=jackets" class="nav-link">Jackets</a>
+        </nav>
+      </div>
+      <a href="index.html" class="nav-logo">Arkedia</a>
+      <div class="nav-actions">
+        <a href="shop.html" class="nav-icon-btn hide-mobile" title="Search">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </a>
+        <a href="about.html" class="nav-icon-btn hide-mobile" title="Account">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+        <a href="wishlist.html" class="nav-icon-btn" title="Wishlist" style="position:relative">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+          <span class="wishlist-badge"></span>
+        </a>
+        <button onclick="openCart()" class="nav-icon-btn" title="Cart" style="position:relative">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+          <span class="cart-badge">0</span>
+        </button>
+      </div>
+    </div>
+    <div class="nav-subnav hide-mobile">
+      <a href="shop.html?cat=tops" class="subnav-link">Tops</a>
+      <a href="shop.html?cat=bottoms" class="subnav-link">Bottoms</a>
+      <a href="shop.html?cat=sets" class="subnav-link">Sets</a>
+      <a href="about.html" class="subnav-link active" style="color:var(--ink)">About</a>
+      <a href="contact.html" class="subnav-link">Contact</a>
+      <a href="shop.html?sale=true" class="subnav-link sale">Sale ✦</a>
+    </div>
+  </div>
+</header>
+
+<!-- ══════ HERO ══════ -->
+<div class="full-banner" style="height:clamp(420px,60vh,680px)">
+  <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600&q=85&fit=crop" alt="Our Story" style="width:100%;height:100%;object-fit:cover;object-position:center 30%"/>
+  <div class="full-banner-overlay" style="background:rgba(0,0,0,.45)"></div>
+  <div class="full-banner-content" style="flex-direction:column;gap:0">
+    <div style="text-align:center">
+      <span class="gold-bar" style="margin:0 auto 20px"></span>
+      <p class="label" style="color:rgba(255,255,255,.6);margin-bottom:12px">Est. Cairo, 2018</p>
+      <h1 style="font-family:var(--serif);font-size:clamp(3rem,8vw,6.5rem);font-weight:900;color:#fff;line-height:.9;letter-spacing:-.02em">Our Story</h1>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ BRAND STORY ══════ -->
+<section class="section-lg">
+  <div class="container">
+    <div class="cols-about-story">
+      <div class="reveal-left">
+        <span class="gold-bar"></span>
+        <p class="label" style="color:var(--muted);margin-bottom:12px">The Beginning</p>
+        <h2 class="display-md" style="margin-bottom:28px">Born from a <em style="font-style:italic;font-weight:400;color:var(--gold)">Passion</em> for Craft</h2>
+        <p style="font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:20px">Arkedia was founded in 2018 in the heart of Cairo by designer Nadia Farouk, with a singular vision: to create fashion that honours both the wearer and the world. What began as a small atelier producing limited-run pieces for a discerning local clientele quickly grew into something far larger.</p>
+        <p style="font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:20px">Nadia's background in textile engineering and her travels across Italy, Japan, and Morocco shaped Arkedia's aesthetic — one that finds beauty in restraint, that values the feel of a fabric as much as its appearance, and that insists on honesty in every seam.</p>
+        <p style="font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:36px">Today Arkedia ships to over 50 countries, collaborates with artisan suppliers across three continents, and remains committed to the founding principle: clothing should be worthy of the women who wear it.</p>
+        <a href="shop.html" class="btn btn-primary btn-lg">Explore the Collection</a>
+      </div>
+      <div class="reveal-right">
+        <div style="position:relative">
+          <div class="clip-reveal" style="aspect-ratio:4/5;overflow:hidden">
+            <img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800&q=85&fit=crop" alt="Brand Story" style="width:100%;height:100%;object-fit:cover"/>
+          </div>
+          <div style="position:absolute;bottom:-24px;left:-24px;background:var(--gold);padding:28px 32px">
+            <p class="label-sm" style="color:rgba(255,255,255,.7);margin-bottom:6px">Our Promise</p>
+            <p style="font-family:var(--serif);font-size:18px;font-weight:600;color:#fff;line-height:1.3">Crafted with<br/>intention.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ VALUE CARDS ══════ -->
+<section class="section" style="background:var(--bg-alt)">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:56px" class="reveal">
+      <span class="gold-bar" style="margin:0 auto 16px"></span>
+      <p class="label" style="color:var(--muted);margin-bottom:8px">What We Stand For</p>
+      <h2 class="display-md">Our Values</h2>
+    </div>
+    <div class="cols-values">
+      <div class="value-card reveal stagger-1" style="background:var(--bg)">
+        <div style="width:52px;height:52px;background:var(--gold-lt);display:flex;align-items:center;justify-content:center;margin-bottom:24px">
+          <svg width="28" height="28" fill="none" stroke="var(--gold)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"/></svg>
+        </div>
+        <h3 style="font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:12px">Quality</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.8">We source only premium fabrics — organic linens, grade-A cashmere, silk satins — and partner with skilled artisans who share our exacting standards. Every stitch matters.</p>
+      </div>
+      <div class="value-card reveal delay-1" style="background:var(--bg)">
+        <div style="width:52px;height:52px;background:var(--gold-lt);display:flex;align-items:center;justify-content:center;margin-bottom:24px">
+          <svg width="28" height="28" fill="none" stroke="var(--gold)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/></svg>
+        </div>
+        <h3 style="font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:12px">Sustainability</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.8">From low-impact dyeing to carbon-offset shipping, sustainability isn't a trend for us — it's a responsibility. We design for longevity, not seasons.</p>
+      </div>
+      <div class="value-card reveal delay-2" style="background:var(--bg)">
+        <div style="width:52px;height:52px;background:var(--gold-lt);display:flex;align-items:center;justify-content:center;margin-bottom:24px">
+          <svg width="28" height="28" fill="none" stroke="var(--gold)" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
+        </div>
+        <h3 style="font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:12px">Community</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.8">Our community of 12,000+ clients is at the heart of everything we do. We listen, we learn, and we create pieces that reflect real women's lives and aspirations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ STATS ══════ -->
+<div class="trust-bar">
+  <div class="container">
+    <div class="row cols-4" style="text-align:center">
+      <div class="reveal stagger-1" style="padding:32px 20px;border-right:1px solid rgba(255,255,255,.1)">
+        <p style="font-family:var(--serif);font-size:3rem;font-weight:900;color:#fff;line-height:1">2018</p>
+        <p class="label-sm" style="color:rgba(255,255,255,.4);margin-top:8px">Year Founded</p>
+      </div>
+      <div class="reveal stagger-2" style="padding:32px 20px;border-right:1px solid rgba(255,255,255,.1)">
+        <p style="font-family:var(--serif);font-size:3rem;font-weight:900;color:#fff;line-height:1"><span data-count="12" data-suffix="K+">0K+</span></p>
+        <p class="label-sm" style="color:rgba(255,255,255,.4);margin-top:8px">Happy Clients</p>
+      </div>
+      <div class="reveal stagger-3" style="padding:32px 20px;border-right:1px solid rgba(255,255,255,.1)">
+        <p style="font-family:var(--serif);font-size:3rem;font-weight:900;color:#fff;line-height:1"><span data-count="200" data-suffix="+">0+</span></p>
+        <p class="label-sm" style="color:rgba(255,255,255,.4);margin-top:8px">Styles</p>
+      </div>
+      <div class="reveal stagger-4" style="padding:32px 20px">
+        <p style="font-family:var(--serif);font-size:3rem;font-weight:900;color:#fff;line-height:1"><span data-count="50" data-suffix="+">0+</span></p>
+        <p class="label-sm" style="color:rgba(255,255,255,.4);margin-top:8px">Countries</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ TEAM ══════ -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:56px" class="reveal">
+      <span class="gold-bar" style="margin:0 auto 16px"></span>
+      <p class="label" style="color:var(--muted);margin-bottom:8px">The People Behind Arkedia</p>
+      <h2 class="display-md">Meet the Team</h2>
+    </div>
+    <div class="cols-team">
+      <div class="team-card reveal stagger-1" style="text-align:center">
+        <div style="overflow:hidden;margin-bottom:20px">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&q=85&fit=crop&crop=faces" alt="Nadia Farouk" style="width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(20%);transition:filter .4s"/>
+        </div>
+        <h3 style="font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:4px">Nadia Farouk</h3>
+        <p class="label-sm" style="color:var(--gold);margin-bottom:8px">Founder & Creative Director</p>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">Textile engineer turned designer, Nadia brings technical precision and an artist's eye to every Arkedia collection.</p>
+      </div>
+      <div class="team-card reveal delay-1" style="text-align:center">
+        <div style="overflow:hidden;margin-bottom:20px">
+          <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&q=85&fit=crop&crop=faces" alt="Layla Hassan" style="width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(20%);transition:filter .4s"/>
+        </div>
+        <h3 style="font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:4px">Layla Hassan</h3>
+        <p class="label-sm" style="color:var(--gold);margin-bottom:8px">Head of Design</p>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">With a decade at European fashion houses, Layla leads the design team with an instinct for what will endure beyond a single season.</p>
+      </div>
+      <div class="team-card reveal delay-2" style="text-align:center">
+        <div style="overflow:hidden;margin-bottom:20px">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=85&fit=crop&crop=faces" alt="Sara Khalil" style="width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(20%);transition:filter .4s"/>
+        </div>
+        <h3 style="font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:4px">Sara Khalil</h3>
+        <p class="label-sm" style="color:var(--gold);margin-bottom:8px">Director of Sustainability</p>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">Sara leads Arkedia's sustainability initiatives — from supply chain transparency to zero-waste packaging across all collections.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ PRESS ══════ -->
+<section class="section-sm" style="background:var(--bg-alt)">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:40px" class="reveal">
+      <p class="label" style="color:var(--muted);margin-bottom:8px">As Seen In</p>
+      <h2 class="display-md">Press & Recognition</h2>
+    </div>
+    <div class="cols-press">
+      <div class="reveal stagger-1" style="text-align:center">
+        <p style="font-family:var(--serif);font-size:22px;font-weight:700;color:var(--muted);letter-spacing:.05em;opacity:.5;transition:opacity .3s" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='.5'">VOGUE</p>
+      </div>
+      <div class="reveal stagger-2" style="text-align:center">
+        <p style="font-family:var(--serif);font-size:18px;font-weight:600;color:var(--muted);letter-spacing:.08em;opacity:.5;transition:opacity .3s;font-style:italic" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='.5'">Harper's Bazaar</p>
+      </div>
+      <div class="reveal stagger-3" style="text-align:center">
+        <p style="font-family:var(--serif);font-size:20px;font-weight:700;color:var(--muted);letter-spacing:.12em;opacity:.5;transition:opacity .3s" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='.5'">ELLE</p>
+      </div>
+      <div class="reveal stagger-4" style="text-align:center">
+        <p style="font-family:var(--serif);font-size:16px;font-weight:600;color:var(--muted);letter-spacing:.04em;opacity:.5;transition:opacity .3s" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='.5'">The Guardian</p>
+      </div>
+      <div class="reveal delay-4" style="text-align:center">
+        <p style="font-family:var(--serif);font-size:17px;font-weight:700;color:var(--muted);letter-spacing:.1em;opacity:.5;transition:opacity .3s;text-transform:uppercase" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='.5'">Wallpaper*</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ SUSTAINABILITY ══════ -->
+<section class="section-lg" style="background:var(--bg-dark);color:#fff">
+  <div class="container">
+    <div class="cols-about-story">
+      <div class="reveal-left">
+        <span class="gold-bar"></span>
+        <p class="label" style="color:rgba(255,255,255,.4);margin-bottom:12px">Our Commitment</p>
+        <h2 class="display-md" style="color:#fff;margin-bottom:24px">Fashion That <em style="font-style:italic;font-weight:400;color:var(--gold)">Respects</em> the Planet</h2>
+        <p style="font-size:15px;color:rgba(255,255,255,.5);line-height:1.85;margin-bottom:36px">We believe that beautiful clothing and environmental responsibility are not in conflict. Every decision we make — from fibre selection to delivery packaging — is guided by our commitment to a lighter footprint.</p>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:16px">
+          <li style="display:flex;align-items:flex-start;gap:14px">
+            <span style="width:20px;height:20px;background:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span style="font-size:14px;color:rgba(255,255,255,.6);line-height:1.7">GOTS-certified organic cotton and linen sourced from responsible mills</span>
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:14px">
+            <span style="width:20px;height:20px;background:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span style="font-size:14px;color:rgba(255,255,255,.6);line-height:1.7">100% recycled and plastic-free packaging across all orders</span>
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:14px">
+            <span style="width:20px;height:20px;background:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span style="font-size:14px;color:rgba(255,255,255,.6);line-height:1.7">Carbon-neutral shipping through verified offset programmes</span>
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:14px">
+            <span style="width:20px;height:20px;background:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span style="font-size:14px;color:rgba(255,255,255,.6);line-height:1.7">Fair Wage Certified production partners across Egypt, Portugal, and Japan</span>
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:14px">
+            <span style="width:20px;height:20px;background:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span style="font-size:14px;color:rgba(255,255,255,.6);line-height:1.7">Arkedia Repair — free mending service to extend the life of your pieces</span>
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:14px">
+            <span style="width:20px;height:20px;background:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span style="font-size:14px;color:rgba(255,255,255,.6);line-height:1.7">1% of annual revenue donated to textile workers' welfare organisations</span>
+          </li>
+        </ul>
+      </div>
+      <div class="reveal-right">
+        <div style="aspect-ratio:4/5;overflow:hidden">
+          <img src="https://images.unsplash.com/photo-1594938298603-a3554f5e5e4d?w=800&q=85&fit=crop" alt="Sustainability" style="width:100%;height:100%;object-fit:cover"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ NEWSLETTER ══════ -->
+<div class="newsletter-section">
+  <div class="container reveal">
+    <span class="gold-bar" style="margin:0 auto 20px"></span>
+    <p class="label" style="color:rgba(255,255,255,.4);margin-bottom:12px;text-align:center">Join the Club</p>
+    <h2 class="display-md" style="color:#fff;text-align:center;margin-bottom:16px">Get 10% Off Your First Order</h2>
+    <p style="font-size:14px;color:rgba(255,255,255,.45);text-align:center;margin-bottom:32px;max-width:400px;margin-left:auto;margin-right:auto">Be first to know about new arrivals, exclusive offers, and styling inspiration.</p>
+    <form id="newsletter-form" class="newsletter-form" style="margin:0 auto">
+      <input type="email" placeholder="Your email address" required/>
+      <button type="submit">Subscribe</button>
+    </form>
+    <p style="font-size:11px;color:rgba(255,255,255,.2);text-align:center;margin-top:16px">No spam. Unsubscribe anytime.</p>
+  </div>
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" style="font-family:var(--serif);font-size:22px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:16px">Arkedia</a>
+        <p style="font-size:13px;color:rgba(255,255,255,.38);line-height:1.8;max-width:260px;margin-bottom:24px">Curated fashion that blends modern sensibility with timeless elegance. For the woman who moves with intention.</p>
+        <div style="display:flex;gap:8px">
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.67a8.24 8.24 0 004.83 1.55V6.77a4.85 4.85 0 01-1.06-.08z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Shop</p>
+        <a href="shop.html" class="footer-link">New Arrivals</a>
+        <a href="shop.html?sort=popular" class="footer-link">Best Sellers</a>
+        <a href="shop.html?cat=dresses" class="footer-link">Dresses</a>
+        <a href="shop.html?cat=jackets" class="footer-link">Jackets & Coats</a>
+        <a href="shop.html?sale=true" class="footer-link" style="color:var(--gold)">Sale</a>
+      </div>
+      <div>
+        <p class="footer-col-title">Help</p>
+        <a href="contact.html" class="footer-link">Size Guide</a>
+        <a href="contact.html" class="footer-link">Shipping & Returns</a>
+        <a href="contact.html" class="footer-link">Track My Order</a>
+        <a href="contact.html" class="footer-link">FAQ</a>
+        <a href="contact.html" class="footer-link">Contact Us</a>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <a href="about.html" class="footer-link">About Arkedia</a>
+        <a href="about.html" class="footer-link">Sustainability</a>
+        <a href="about.html" class="footer-link">Careers</a>
+        <a href="about.html" class="footer-link">Press</a>
+      </div>
+    </div>
+    <div class="footer-subscribe">
+      <div>
+        <p class="footer-col-title" style="margin-bottom:4px">Stay in the Loop</p>
+        <p style="font-size:12px;color:rgba(255,255,255,.38)">New arrivals, exclusive offers, and style notes.</p>
+      </div>
+      <!-- <form id="footer-newsletter-form" class="footer-subscribe-form">
+        <input type="email" placeholder="Enter your email" required/>
+        <button type="submit">Subscribe</button>
+      </form> -->
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Arkedia. All rights reserved.</p>
+      <div style="display:flex;gap:24px">
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Privacy Policy</a>
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Terms of Service</a>
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Cookies</a>
+      </div>
+      <div style="display:flex;gap:6px">
+        <span class="payment-chip">VISA</span>
+        <span class="payment-chip">MC</span>
+        <span class="payment-chip">AMEX</span>
+        <span class="payment-chip">PayPal</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="mobile-bar">
+  <div class="mobile-bar-inner">
+    <a href="index.html" class="mobile-bar-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="shop.html" class="mobile-bar-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Shop
+    </a>
+    <button onclick="openCart()" class="mobile-bar-btn cart-btn" style="position:relative;background:none;border:none">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+      <span class="cart-badge">0</span>
+      Bag
+    </button>
+    <a href="about.html" class="mobile-bar-btn active">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      About
+    </a>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+function updateWishlistBadge() {
+  const count = store.wishlist.length;
+  document.querySelectorAll('.wishlist-badge').forEach(el => {
+    el.textContent = count || '';
+    el.classList.toggle('show', count > 0);
+  });
+}
+const _origToggleWish = store.toggleWishlist.bind(store);
+store.toggleWishlist = function(id) { _origToggleWish(id); updateWishlistBadge(); };
+
+document.addEventListener('DOMContentLoaded', () => {
+  initReveal();
+  initCounters();
+  handleNewsletter('newsletter-form');
+  handleNewsletter('footer-newsletter-form');
+  updateWishlistBadge();
+
+  // Grayscale hover on team cards
+  document.querySelectorAll('.team-card img').forEach(img => {
+    img.addEventListener('mouseenter', () => { img.style.filter = 'grayscale(0)'; });
+    img.addEventListener('mouseleave', () => { img.style.filter = 'grayscale(20%)'; });
+  });
+});
+</script>
+</body>
+</html>

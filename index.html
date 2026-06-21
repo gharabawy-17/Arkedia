@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ARKEDIA — Modern Fashion</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/style.css"/>
+<script>tailwind.config={theme:{extend:{colors:{cream:'#F6F3EF',gold:'#C8A46A',ink:'#0C0C0C',muted:'#888888'},fontFamily:{serif:['Playfair Display','serif'],sans:['Inter','sans-serif']}}}}</script>
+</head>
+<body>
+<div id="page-loader"><div class="loader-logo">Arkedia</div></div>
+<div id="toast">
+  <svg id="toast-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toast-icon"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  <span id="toast-msg">Added to bag</span>
+</div>
+<div id="overlay"></div>
+
+<!-- CART DRAWER -->
+<aside id="cart-drawer">
+  <div class="cart-header">
+    <div>
+      <p class="label" style="color:var(--muted);margin-bottom:2px">Your</p>
+      <h3 style="font-family:var(--serif);font-size:20px;font-weight:700">Shopping Bag <span id="cart-count-label" style="font-size:13px;font-weight:400;font-family:var(--sans);color:var(--muted)"></span></h3>
+    </div>
+    <button onclick="closeCart()" class="nav-icon-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div id="cart-empty" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 40px;flex:1">
+    <svg width="60" height="60" fill="none" stroke="var(--border)" viewBox="0 0 24 24" stroke-width="1" style="margin-bottom:16px"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+    <p style="font-family:var(--serif);font-size:20px;margin-bottom:8px">Your bag is empty</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:24px">Discover pieces you love</p>
+    <a href="shop.html" onclick="closeCart()" class="btn btn-primary">Shop Now</a>
+  </div>
+  <div class="cart-footer" id="cart-footer-el">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <span style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)">Subtotal</span>
+      <span id="cart-total" style="font-family:var(--serif);font-size:24px;font-weight:700">$0</span>
+    </div>
+    <a href="cart.html" class="btn btn-primary btn-block btn-lg" style="margin-bottom:12px;display:flex">View Bag & Checkout</a>
+    <button onclick="closeCart()" class="btn btn-outline btn-block">Continue Shopping</button>
+  </div>
+</aside>
+
+<!-- MOBILE NAV -->
+<div id="mobile-nav">
+  <nav>
+    <a href="index.html" class="mobile-nav-link">Home</a>
+    <a href="shop.html" class="mobile-nav-link">Shop All</a>
+    <a href="shop.html?cat=dresses" class="mobile-nav-link">Dresses</a>
+    <a href="shop.html?cat=jackets" class="mobile-nav-link">Jackets</a>
+    <a href="shop.html?cat=tops" class="mobile-nav-link">Tops</a>
+    <a href="shop.html?cat=bottoms" class="mobile-nav-link">Bottoms</a>
+    <a href="about.html" class="mobile-nav-link">About</a>
+    <a href="contact.html" class="mobile-nav-link">Contact</a>
+    <a href="shop.html?sale=true" class="mobile-nav-link" style="color:var(--gold)">Sale ✦</a>
+  </nav>
+  <div style="margin-top:32px;display:flex;gap:16px">
+    <a href="cart.html" style="font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)" onclick="closeMenu()">Cart</a>
+    <span style="color:var(--muted)">·</span>
+    <a href="about.html" style="font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)" onclick="closeMenu()">About</a>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann-bar">
+  <div class="ann-inner">
+    <span style="padding:0 32px">FREE SHIPPING OVER $150</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">NEW DROPS EVERY FRIDAY</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">30-DAY FREE RETURNS</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">USE CODE ARKEDIA10 FOR 10% OFF</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">FREE SHIPPING OVER $150</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">NEW DROPS EVERY FRIDAY</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">30-DAY FREE RETURNS</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">USE CODE ARKEDIA10 FOR 10% OFF</span><span style="color:var(--gold);padding:0 12px">✦</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<header id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <div style="display:flex;align-items:center;gap:16px">
+        <button class="hamburger hide-desktop" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+        <nav class="nav-links hide-mobile">
+          <a href="index.html" class="nav-link active">Home</a>
+          <a href="shop.html" class="nav-link">Shop</a>
+          <a href="shop.html?cat=dresses" class="nav-link">Dresses</a>
+          <a href="shop.html?cat=jackets" class="nav-link">Jackets</a>
+        </nav>
+      </div>
+      <a href="index.html" class="nav-logo">Arkedia</a>
+      <div class="nav-actions">
+        <a href="shop.html" class="nav-icon-btn hide-mobile" title="Search">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </a>
+        <a href="about.html" class="nav-icon-btn hide-mobile" title="Account">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+        <a href="wishlist.html" class="nav-icon-btn" title="Wishlist" style="position:relative">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+          <span class="wishlist-badge"></span>
+        </a>
+        <button onclick="openCart()" class="nav-icon-btn" title="Cart" style="position:relative">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+          <span class="cart-badge">0</span>
+        </button>
+      </div>
+    </div>
+    <div class="nav-subnav hide-mobile">
+      <a href="shop.html?cat=tops" class="subnav-link">Tops</a>
+      <a href="shop.html?cat=bottoms" class="subnav-link">Bottoms</a>
+      <a href="shop.html?cat=sets" class="subnav-link">Sets</a>
+      <a href="about.html" class="subnav-link">About</a>
+      <a href="contact.html" class="subnav-link">Contact</a>
+      <a href="shop.html?sale=true" class="subnav-link sale">Sale ✦</a>
+    </div>
+  </div>
+</header>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero hero-split" style="min-height:calc(100vh - 108px)">
+  <!-- Left: Text -->
+  <div class="hero-text" style="background:var(--bg)">
+    <span class="gold-bar reveal"></span>
+    <p class="label reveal delay-1" style="color:var(--muted);margin-bottom:16px">Summer Collection — 2025</p>
+    <h1 style="font-family:var(--serif);font-size:clamp(3.5rem,7vw,6rem);font-weight:900;line-height:.88;letter-spacing:-.02em;margin-bottom:24px">
+      <div class="word-reveal"><span class="word-inner">Dress</span></div>
+      <div class="word-reveal"><em class="word-inner" style="font-weight:400;font-style:italic;color:var(--gold);transition-delay:.18s">the</em></div>
+      <div class="word-reveal"><span class="word-inner" style="transition-delay:.32s">Moment</span></div>
+    </h1>
+    <p class="reveal delay-3" style="font-size:15px;color:var(--muted);line-height:1.75;max-width:340px;margin-bottom:36px">
+      Curated pieces that move with you. From morning errands to evening occasions — effortless style for every chapter.
+    </p>
+    <div class="reveal delay-4" style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+      <a href="shop.html" class="btn btn-primary btn-lg">Shop New In</a>
+      <a href="about.html" class="btn btn-ghost" style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500">Our Story →</a>
+    </div>
+    <!-- Stats -->
+    <div class="reveal delay-5 cols-stats" style="margin-top:60px;padding-top:32px;border-top:1px solid var(--border)">
+      <div>
+        <p style="font-family:var(--serif);font-size:2rem;font-weight:900">4.9★</p>
+        <p class="label-sm" style="color:var(--muted);margin-top:4px">Rating</p>
+      </div>
+      <div class="stat-divider"></div>
+      <div>
+        <p style="font-family:var(--serif);font-size:2rem;font-weight:900"><span data-count="12" data-suffix="K+">0K+</span></p>
+        <p class="label-sm" style="color:var(--muted);margin-top:4px">Clients</p>
+      </div>
+      <div class="stat-divider"></div>
+      <div>
+        <p style="font-family:var(--serif);font-size:2rem;font-weight:900"><span data-count="200" data-suffix="+">0+</span></p>
+        <p class="label-sm" style="color:var(--muted);margin-top:4px">Styles</p>
+      </div>
+    </div>
+  </div>
+  <!-- Right: Image -->
+  <div class="hero-img" style="height:100%">
+    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1000&q=85&fit=crop" alt="Hero" style="min-height:420px"/>
+    <div style="position:absolute;bottom:32px;left:32px;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);padding:20px 24px">
+      <p class="label-sm" style="color:var(--muted);margin-bottom:6px">New Drop</p>
+      <p style="font-family:var(--serif);font-size:17px;font-weight:600">The Linen Edit</p>
+      <p style="font-size:13px;color:var(--gold);font-weight:600;margin-top:6px">From $89 · 23 styles</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ CATEGORIES ══════ -->
+<section class="section" style="background:var(--bg)">
+  <div class="container">
+    <div class="section-header-row">
+      <div class="reveal">
+        <span class="gold-bar"></span>
+        <p class="label" style="color:var(--muted);margin-bottom:8px">Browse by</p>
+        <h2 class="display-md">Categories</h2>
+      </div>
+      <a href="shop.html" class="btn btn-ghost hide-mobile reveal" style="font-size:11px;letter-spacing:.18em;text-transform:uppercase">View All →</a>
+    </div>
+    <div class="row cols-cat">
+      <a href="shop.html?cat=dresses" class="cat-card reveal stagger-1" style="aspect-ratio:3/4">
+        <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=500&q=80&fit=crop" alt="Dresses" loading="lazy"/>
+        <div class="cat-card-overlay"></div>
+        <div class="cat-card-text">
+          <p class="label-sm" style="color:rgba(255,255,255,.65);margin-bottom:4px">Explore</p>
+          <p style="font-family:var(--serif);font-size:24px;font-weight:600;color:#fff">Dresses</p>
+        </div>
+      </a>
+      <a href="shop.html?cat=jackets" class="cat-card reveal delay-1" style="aspect-ratio:3/4;margin-top:40px">
+        <img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=500&q=80&fit=crop" alt="Jackets" loading="lazy"/>
+        <div class="cat-card-overlay"></div>
+        <div class="cat-card-text">
+          <p class="label-sm" style="color:rgba(255,255,255,.65);margin-bottom:4px">Explore</p>
+          <p style="font-family:var(--serif);font-size:24px;font-weight:600;color:#fff">Jackets</p>
+        </div>
+      </a>
+      <a href="shop.html?cat=tops" class="cat-card reveal delay-2" style="aspect-ratio:3/4">
+        <img src="https://images.unsplash.com/photo-1594938298603-a3554f5e5e4d?w=500&q=80&fit=crop" alt="Tops" loading="lazy"/>
+        <div class="cat-card-overlay"></div>
+        <div class="cat-card-text">
+          <p class="label-sm" style="color:rgba(255,255,255,.65);margin-bottom:4px">Explore</p>
+          <p style="font-family:var(--serif);font-size:24px;font-weight:600;color:#fff">Tops</p>
+        </div>
+      </a>
+      <a href="shop.html?cat=bottoms" class="cat-card reveal delay-3" style="aspect-ratio:3/4;margin-top:40px">
+        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=500&q=80&fit=crop" alt="Homewear" loading="lazy"/>
+        <div class="cat-card-overlay"></div>
+        <div class="cat-card-text">
+          <p class="label-sm" style="color:rgba(255,255,255,.65);margin-bottom:4px">Explore</p>
+          <p style="font-family:var(--serif);font-size:24px;font-weight:600;color:#fff">Bottoms</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FULL BANNER ══════ -->
+<div class="full-banner reveal-scale" style="height:clamp(300px,55vh,640px)">
+  <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600&q=85&fit=crop" alt="Summer Edit" style="width:100%;height:100%;object-fit:cover;object-position:top"/>
+  <div class="full-banner-overlay"></div>
+  <div class="full-banner-content">
+    <div style="text-align:center">
+      <p class="label" style="color:rgba(255,255,255,.7);margin-bottom:12px">Limited Edition</p>
+      <h2 style="font-family:var(--serif);font-size:clamp(2.5rem,7vw,5.5rem);font-weight:900;color:#fff;line-height:1;margin-bottom:28px">The Summer Edit</h2>
+      <a href="shop.html" class="btn btn-gold btn-lg">Explore Collection</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ NEW ARRIVALS ══════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header-row">
+      <div class="reveal">
+        <span class="gold-bar"></span>
+        <p class="label" style="color:var(--muted);margin-bottom:8px">Just Landed</p>
+        <h2 class="display-md">New Arrivals</h2>
+      </div>
+      <a href="shop.html" class="btn btn-ghost hide-mobile reveal" style="font-size:11px;letter-spacing:.18em;text-transform:uppercase">Shop All →</a>
+    </div>
+    <div id="home-products" class="products-grid"></div>
+    <div style="text-align:center;margin-top:48px" class="reveal">
+      <a href="shop.html" class="btn btn-outline btn-lg">View All Products</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ TRUST BAR ══════ -->
+<div class="trust-bar">
+  <div class="container">
+    <div class="row cols-trust">
+      <div class="trust-item reveal stagger-1">
+        <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+        <h4>Free Shipping</h4><p>Orders over $150</p>
+      </div>
+      <div class="trust-item reveal stagger-2">
+        <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+        <h4>Easy Returns</h4><p>30-day policy</p>
+      </div>
+      <div class="trust-item reveal stagger-3">
+        <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+        <h4>Secure Payment</h4><p>100% protected</p>
+      </div>
+      <div class="trust-item reveal stagger-4">
+        <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+        <h4>Premium Quality</h4><p>Thoughtfully crafted</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ BRAND STORY SPLIT ══════ -->
+<section class="section-lg" style="background:var(--bg)">
+  <div class="container">
+    <div class="row cols-story">
+      <div class="reveal-left" style="position:relative">
+        <div class="clip-reveal" style="aspect-ratio:4/5;overflow:hidden">
+          <img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800&q=85&fit=crop" alt="Brand" style="width:100%;height:100%;object-fit:cover"/>
+        </div>
+        <div style="position:absolute;bottom:-20px;right:-20px;background:var(--gold);padding:24px 28px;display:none" class="hidden lg:block">
+          <p class="label-sm" style="color:rgba(255,255,255,.7);margin-bottom:6px">This Season</p>
+          <p style="font-family:var(--serif);font-size:18px;font-weight:600;color:#fff;line-height:1.3">Effortless<br/>by Design</p>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <span class="gold-bar"></span>
+        <p class="label" style="color:var(--muted);margin-bottom:12px">Our Philosophy</p>
+        <h2 class="display-md" style="margin-bottom:24px">Style That <em style="font-style:italic;font-weight:400;color:var(--gold)">Speaks</em> For Itself</h2>
+        <p style="font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:16px">Every piece is thoughtfully designed with premium materials and meticulous craftsmanship. Fashion that feels as good as it looks.</p>
+        <p style="font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:40px">From sustainable fabrics to careful finishing — our clothes are built to become wardrobe staples, not seasonal trends.</p>
+        <div class="row cols-2" style="gap:32px;margin-bottom:40px">
+          <div><p style="font-family:var(--serif);font-size:3rem;font-weight:900">98%</p><p class="label-sm" style="color:var(--muted);margin-top:4px">Satisfaction Rate</p></div>
+          <div><p style="font-family:var(--serif);font-size:3rem;font-weight:900">5yr</p><p class="label-sm" style="color:var(--muted);margin-top:4px">Avg. Wardrobe Life</p></div>
+        </div>
+        <a href="about.html" class="btn btn-primary btn-lg">Our Story</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ TESTIMONIALS ══════ -->
+<section class="section" style="background:var(--bg-alt)">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px" class="reveal">
+      <span class="gold-bar" style="margin:0 auto 16px"></span>
+      <p class="label" style="color:var(--muted);margin-bottom:8px">What They Say</p>
+      <h2 class="display-md">Loved by Thousands</h2>
+    </div>
+    <div class="row cols-3 gap-md">
+      <div class="review-card reveal stagger-1">
+        <div class="stars" style="margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+        </div>
+        <p style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:24px">"Absolutely obsessed with everything I've ordered. The quality is outstanding and delivery was super fast. Already on my third order!"</p>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="reviewer-avatar">S</div>
+          <div><p style="font-size:14px;font-weight:500">Sarah M.</p><p style="font-size:11px;color:var(--muted)">Verified · Cairo</p></div>
+        </div>
+      </div>
+      <div class="review-card review-card-dark reveal stagger-2">
+        <div class="stars" style="margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+        </div>
+        <p style="font-size:14px;color:rgba(255,255,255,.55);line-height:1.8;margin-bottom:24px">"The Florentine Dress is stunning. Got so many compliments. The fabric feels so luxurious — I'll definitely come back!"</p>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="reviewer-avatar">L</div>
+          <div><p style="font-size:14px;font-weight:500;color:#fff">Leila K.</p><p style="font-size:11px;color:rgba(255,255,255,.4)">Verified · Dubai</p></div>
+        </div>
+      </div>
+      <div class="review-card reveal stagger-3">
+        <div class="stars" style="margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+        </div>
+        <p style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:24px">"The sizing guide was spot on. Everything fit perfectly. The packaging was also beautiful — felt like a real gift."</p>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="reviewer-avatar">N</div>
+          <div><p style="font-size:14px;font-weight:500">Nour A.</p><p style="font-size:11px;color:var(--muted)">Verified · Riyadh</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ INSTAGRAM ══════ -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:32px" class="reveal">
+      <p class="label" style="color:var(--muted);margin-bottom:8px">Follow @arkedia.style</p>
+      <h2 class="display-md">Styled by You</h2>
+    </div>
+  </div>
+  <div class="insta-grid">
+    <div class="insta-item reveal stagger-1"><img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400&q=75&fit=crop" alt="" loading="lazy"/><div class="insta-overlay"><svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></div></div>
+    <div class="insta-item reveal stagger-2"><img src="https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=400&q=75&fit=crop" alt="" loading="lazy"/><div class="insta-overlay"><svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></div></div>
+    <div class="insta-item reveal stagger-3"><img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400&q=75&fit=crop" alt="" loading="lazy"/><div class="insta-overlay"><svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></div></div>
+    <div class="insta-item reveal stagger-4"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&q=75&fit=crop" alt="" loading="lazy"/><div class="insta-overlay"><svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></div></div>
+    <div class="insta-item reveal delay-4"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=75&fit=crop" alt="" loading="lazy"/><div class="insta-overlay"><svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></div></div>
+    <div class="insta-item reveal delay-5"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=75&fit=crop" alt="" loading="lazy"/><div class="insta-overlay"><svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></div></div>
+  </div>
+</section>
+
+<!-- ══════ NEWSLETTER ══════ -->
+<div class="newsletter-section">
+  <div class="container reveal">
+    <span class="gold-bar" style="margin:0 auto 20px"></span>
+    <p class="label" style="color:rgba(255,255,255,.4);margin-bottom:12px;text-align:center">Join the Club</p>
+    <h2 class="display-md" style="color:#fff;text-align:center;margin-bottom:16px">Get 10% Off Your First Order</h2>
+    <p style="font-size:14px;color:rgba(255,255,255,.45);text-align:center;margin-bottom:32px;max-width:400px;margin-left:auto;margin-right:auto">Be first to know about new arrivals, exclusive offers, and styling inspiration.</p>
+    <form id="newsletter-form" class="newsletter-form" style="margin:0 auto">
+      <input type="email" placeholder="Your email address" required/>
+      <button type="submit">Subscribe</button>
+    </form>
+    <p style="font-size:11px;color:rgba(255,255,255,.2);text-align:center;margin-top:16px">No spam. Unsubscribe anytime.</p>
+  </div>
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" style="font-family:var(--serif);font-size:22px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:16px">Arkedia</a>
+        <p style="font-size:13px;color:rgba(255,255,255,.38);line-height:1.8;max-width:260px;margin-bottom:24px">Curated fashion that blends modern sensibility with timeless elegance. For the woman who moves with intention.</p>
+        <div style="display:flex;gap:8px">
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.67a8.24 8.24 0 004.83 1.55V6.77a4.85 4.85 0 01-1.06-.08z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Shop</p>
+        <a href="shop.html" class="footer-link">New Arrivals</a>
+        <a href="shop.html?sort=popular" class="footer-link">Best Sellers</a>
+        <a href="shop.html?cat=dresses" class="footer-link">Dresses</a>
+        <a href="shop.html?cat=jackets" class="footer-link">Jackets & Coats</a>
+        <a href="shop.html?sale=true" class="footer-link" style="color:var(--gold)">Sale</a>
+      </div>
+      <div>
+        <p class="footer-col-title">Help</p>
+        <a href="contact.html" class="footer-link">Size Guide</a>
+        <a href="contact.html" class="footer-link">Shipping & Returns</a>
+        <a href="contact.html" class="footer-link">Track My Order</a>
+        <a href="contact.html" class="footer-link">FAQ</a>
+        <a href="contact.html" class="footer-link">Contact Us</a>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <a href="about.html" class="footer-link">About Arkedia</a>
+        <a href="about.html" class="footer-link">Sustainability</a>
+        <a href="about.html" class="footer-link">Careers</a>
+        <a href="about.html" class="footer-link">Press</a>
+      </div>
+    </div>
+    <div class="footer-subscribe">
+      <div>
+        <p class="footer-col-title" style="margin-bottom:4px">Stay in the Loop</p>
+        <p style="font-size:12px;color:rgba(255,255,255,.38)">New arrivals, exclusive offers, and style notes.</p>
+      </div>
+      <form id="footer-newsletter-form" class="footer-subscribe-form">
+        <input type="email" placeholder="Enter your email" required/>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Arkedia. All rights reserved.</p>
+      <div style="display:flex;gap:24px">
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Privacy Policy</a>
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Terms of Service</a>
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Cookies</a>
+      </div>
+      <div style="display:flex;gap:6px">
+        <span class="payment-chip">VISA</span>
+        <span class="payment-chip">MC</span>
+        <span class="payment-chip">AMEX</span>
+        <span class="payment-chip">PayPal</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="mobile-bar">
+  <div class="mobile-bar-inner">
+    <a href="index.html" class="mobile-bar-btn active">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="shop.html" class="mobile-bar-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Shop
+    </a>
+    <button onclick="openCart()" class="mobile-bar-btn cart-btn" style="position:relative;background:none;border:none">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+      <span class="cart-badge">0</span>
+      Bag
+    </button>
+    <a href="about.html" class="mobile-bar-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      About
+    </a>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+function updateWishlistBadge() {
+  const count = store.wishlist.length;
+  document.querySelectorAll('.wishlist-badge').forEach(el => {
+    el.textContent = count || '';
+    el.classList.toggle('show', count > 0);
+  });
+}
+const _origToggleWish = store.toggleWishlist.bind(store);
+store.toggleWishlist = function(id) { _origToggleWish(id); updateWishlistBadge(); };
+
+document.addEventListener('DOMContentLoaded', () => {
+  const grid = document.getElementById('home-products');
+  if (grid) {
+    grid.innerHTML = PRODUCTS.slice(0, 8).map((p, i) => renderProductCard(p, { delay: (i % 4) * 0.08 })).join('');
+    initReveal();
+  }
+  handleNewsletter('footer-newsletter-form');
+  updateWishlistBadge();
+});
+</script>
+</body>
+</html>

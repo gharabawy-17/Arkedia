@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shop All — ARKEDIA</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/style.css"/>
+<script>tailwind.config={theme:{extend:{colors:{cream:'#F6F3EF',gold:'#C8A46A',ink:'#0C0C0C',muted:'#888888'},fontFamily:{serif:['Playfair Display','serif'],sans:['Inter','sans-serif']}}}}</script>
+<style>
+@media (max-width: 639px) {
+  .filter-pills-row { gap: 6px; }
+  .filter-pill { padding: 6px 12px; font-size: 10px; }
+}
+</style>
+</head>
+<body>
+
+<div id="page-loader"><div class="loader-logo">Arkedia</div></div>
+<div id="toast">
+  <svg id="toast-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toast-icon"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  <span id="toast-msg">Added to bag</span>
+</div>
+<div id="overlay"></div>
+
+<!-- MOBILE FILTER DRAWER -->
+<div id="mobile-filter-drawer" style="position:fixed;inset:0;z-index:150;display:none">
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,.5)" onclick="closeMobileFilter()"></div>
+  <div style="position:absolute;bottom:0;left:0;right:0;background:var(--bg);max-height:85vh;overflow-y:auto">
+    <div style="padding:24px 24px 0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px">
+      <h3 style="font-family:var(--serif);font-size:18px;font-weight:700">Filter & Sort</h3>
+      <button onclick="closeMobileFilter()" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div style="padding:24px">
+      <div class="filter-group">
+        <p class="filter-title">Category</p>
+        <label class="filter-option" id="mob-cat-all"><input type="radio" name="mob-cat" value="all" checked onchange="setCategory('all')"/> All</label>
+        <label class="filter-option" id="mob-cat-dresses"><input type="radio" name="mob-cat" value="dresses" onchange="setCategory('dresses')"/> Dresses</label>
+        <label class="filter-option" id="mob-cat-jackets"><input type="radio" name="mob-cat" value="jackets" onchange="setCategory('jackets')"/> Jackets</label>
+        <label class="filter-option" id="mob-cat-tops"><input type="radio" name="mob-cat" value="tops" onchange="setCategory('tops')"/> Tops</label>
+        <label class="filter-option" id="mob-cat-bottoms"><input type="radio" name="mob-cat" value="bottoms" onchange="setCategory('bottoms')"/> Bottoms</label>
+        <label class="filter-option" id="mob-cat-sets"><input type="radio" name="mob-cat" value="sets" onchange="setCategory('sets')"/> Sets</label>
+      </div>
+      <div class="filter-group">
+        <p class="filter-title">Price Range</p>
+        <label class="filter-option"><input type="radio" name="mob-price" value="all" checked onchange="setPriceRange('all')"/> All Prices</label>
+        <label class="filter-option"><input type="radio" name="mob-price" value="0-100" onchange="setPriceRange('0-100')"/> Under $100</label>
+        <label class="filter-option"><input type="radio" name="mob-price" value="100-200" onchange="setPriceRange('100-200')"/> $100 – $200</label>
+        <label class="filter-option"><input type="radio" name="mob-price" value="200+" onchange="setPriceRange('200+')"/> Over $200</label>
+      </div>
+      <div class="filter-group" style="border-bottom:none">
+        <p class="filter-title">Sort By</p>
+        <label class="filter-option"><input type="radio" name="mob-sort" value="newest" checked onchange="setSort('newest')"/> Newest</label>
+        <label class="filter-option"><input type="radio" name="mob-sort" value="price-asc" onchange="setSort('price-asc')"/> Price: Low to High</label>
+        <label class="filter-option"><input type="radio" name="mob-sort" value="price-desc" onchange="setSort('price-desc')"/> Price: High to Low</label>
+        <label class="filter-option"><input type="radio" name="mob-sort" value="rating" onchange="setSort('rating')"/> Best Rated</label>
+      </div>
+      <button onclick="closeMobileFilter()" class="btn btn-primary btn-block" style="margin-top:8px">Apply Filters</button>
+      <button onclick="resetFilters()" class="btn btn-outline btn-block" style="margin-top:8px">Clear All</button>
+    </div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<aside id="cart-drawer">
+  <div class="cart-header">
+    <div>
+      <p class="label" style="color:var(--muted);margin-bottom:2px">Your</p>
+      <h3 style="font-family:var(--serif);font-size:20px;font-weight:700">Shopping Bag <span id="cart-count-label" style="font-size:13px;font-weight:400;font-family:var(--sans);color:var(--muted)"></span></h3>
+    </div>
+    <button onclick="closeCart()" class="nav-icon-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div id="cart-empty" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 40px;flex:1">
+    <svg width="60" height="60" fill="none" stroke="var(--border)" viewBox="0 0 24 24" stroke-width="1" style="margin-bottom:16px"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+    <p style="font-family:var(--serif);font-size:20px;margin-bottom:8px">Your bag is empty</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:24px">Discover pieces you love</p>
+    <a href="shop.html" onclick="closeCart()" class="btn btn-primary">Shop Now</a>
+  </div>
+  <div class="cart-footer" id="cart-footer-el">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <span style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)">Subtotal</span>
+      <span id="cart-total" style="font-family:var(--serif);font-size:24px;font-weight:700">$0</span>
+    </div>
+    <a href="cart.html" class="btn btn-primary btn-block btn-lg" style="margin-bottom:12px;display:flex">View Bag & Checkout</a>
+    <button onclick="closeCart()" class="btn btn-outline btn-block">Continue Shopping</button>
+  </div>
+</aside>
+
+<!-- MOBILE NAV -->
+<div id="mobile-nav">
+  <nav>
+    <a href="index.html" class="mobile-nav-link">Home</a>
+    <a href="shop.html" class="mobile-nav-link">Shop All</a>
+    <a href="shop.html?cat=dresses" class="mobile-nav-link">Dresses</a>
+    <a href="shop.html?cat=jackets" class="mobile-nav-link">Jackets</a>
+    <a href="shop.html?cat=tops" class="mobile-nav-link">Tops</a>
+    <a href="shop.html?cat=bottoms" class="mobile-nav-link">Bottoms</a>
+    <a href="about.html" class="mobile-nav-link">About</a>
+    <a href="contact.html" class="mobile-nav-link">Contact</a>
+    <a href="shop.html?sale=true" class="mobile-nav-link" style="color:var(--gold)">Sale ✦</a>
+  </nav>
+  <div style="margin-top:32px;display:flex;gap:16px">
+    <a href="cart.html" style="font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)" onclick="closeMenu()">Cart</a>
+    <span style="color:var(--muted)">·</span>
+    <a href="about.html" style="font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)" onclick="closeMenu()">About</a>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann-bar">
+  <div class="ann-inner">
+    <span style="padding:0 32px">FREE SHIPPING OVER $150</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">NEW DROPS EVERY FRIDAY</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">30-DAY FREE RETURNS</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">USE CODE ARKEDIA10 FOR 10% OFF</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">FREE SHIPPING OVER $150</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">NEW DROPS EVERY FRIDAY</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">30-DAY FREE RETURNS</span><span style="color:var(--gold);padding:0 12px">✦</span>
+    <span style="padding:0 32px">USE CODE ARKEDIA10 FOR 10% OFF</span><span style="color:var(--gold);padding:0 12px">✦</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<header id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <div style="display:flex;align-items:center;gap:16px">
+        <button class="hamburger hide-desktop" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+        <nav class="nav-links hide-mobile">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="shop.html" class="nav-link active">Shop</a>
+          <a href="shop.html?cat=dresses" class="nav-link">Dresses</a>
+          <a href="shop.html?cat=jackets" class="nav-link">Jackets</a>
+        </nav>
+      </div>
+      <a href="index.html" class="nav-logo">Arkedia</a>
+      <div class="nav-actions">
+        <a href="shop.html" class="nav-icon-btn hide-mobile" title="Search">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </a>
+        <a href="about.html" class="nav-icon-btn hide-mobile" title="Account">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+        <a href="wishlist.html" class="nav-icon-btn" title="Wishlist" style="position:relative">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+          <span class="wishlist-badge"></span>
+        </a>
+        <button onclick="openCart()" class="nav-icon-btn" title="Cart" style="position:relative">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+          <span class="cart-badge">0</span>
+        </button>
+      </div>
+    </div>
+    <div class="nav-subnav hide-mobile">
+      <a href="shop.html?cat=tops" class="subnav-link">Tops</a>
+      <a href="shop.html?cat=bottoms" class="subnav-link">Bottoms</a>
+      <a href="shop.html?cat=sets" class="subnav-link">Sets</a>
+      <a href="about.html" class="subnav-link">About</a>
+      <a href="contact.html" class="subnav-link">Contact</a>
+      <a href="shop.html?sale=true" class="subnav-link sale">Sale ✦</a>
+    </div>
+  </div>
+</header>
+
+<!-- PAGE HEADER -->
+<div style="background:var(--bg-alt);padding:40px 0 32px;border-bottom:1px solid var(--border)">
+  <div class="container">
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span id="breadcrumb-current">Shop</span>
+    </nav>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:12px">
+      <div>
+        <span class="gold-bar"></span>
+        <h1 class="display-md" id="shop-title">Shop All</h1>
+      </div>
+      <p style="font-size:13px;color:var(--muted)" id="product-count">12 products</p>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER PILLS + MOBILE BUTTON -->
+<div style="border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:108px;z-index:50;background:rgba(255,255,255,.97);backdrop-filter:blur(8px)">
+  <div class="container" style="padding-top:12px;padding-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <div class="filter-pills-row" style="display:flex;align-items:center;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex:1">
+      <button class="filter-pill active" id="pill-all" onclick="setCategory('all')">All</button>
+      <button class="filter-pill" id="pill-dresses" onclick="setCategory('dresses')">Dresses</button>
+      <button class="filter-pill" id="pill-jackets" onclick="setCategory('jackets')">Jackets</button>
+      <button class="filter-pill" id="pill-tops" onclick="setCategory('tops')">Tops</button>
+      <button class="filter-pill" id="pill-bottoms" onclick="setCategory('bottoms')">Bottoms</button>
+      <button class="filter-pill" id="pill-sets" onclick="setCategory('sets')">Sets</button>
+      <button class="filter-pill" id="pill-sale" onclick="setCategory('sale')" style="color:var(--gold);border-color:var(--gold)">Sale ✦</button>
+    </div>
+    <!-- Desktop sort -->
+    <div class="hide-mobile" style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+      <label style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);white-space:nowrap">Sort:</label>
+      <select id="desktop-sort" onchange="setSort(this.value)" style="font-size:12px;padding:8px 12px;border:1px solid var(--border);background:var(--bg);color:var(--ink);outline:none;cursor:pointer">
+        <option value="newest">Newest</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="rating">Best Rated</option>
+      </select>
+    </div>
+    <!-- Mobile filter button -->
+    <button onclick="openMobileFilter()" class="btn btn-outline btn-sm hide-desktop" style="flex-shrink:0;display:flex;align-items:center;gap:6px;white-space:nowrap">
+      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/></svg>
+      Filter
+      <span id="filter-badge" style="display:none;background:var(--gold);color:#fff;width:16px;height:16px;border-radius:50%;font-size:9px;font-weight:700;align-items:center;justify-content:center">0</span>
+    </button>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<section class="section-sm">
+  <div class="container">
+    <div class="row cols-shop">
+
+      <!-- SIDEBAR (desktop) -->
+      <aside id="shop-sidebar">
+        <div class="filter-group">
+          <p class="filter-title">Category</p>
+          <label class="filter-option"><input type="radio" name="cat" value="all" checked onchange="setCategory('all')"/> All Products</label>
+          <label class="filter-option"><input type="radio" name="cat" value="dresses" onchange="setCategory('dresses')"/> Dresses</label>
+          <label class="filter-option"><input type="radio" name="cat" value="jackets" onchange="setCategory('jackets')"/> Jackets</label>
+          <label class="filter-option"><input type="radio" name="cat" value="tops" onchange="setCategory('tops')"/> Tops</label>
+          <label class="filter-option"><input type="radio" name="cat" value="bottoms" onchange="setCategory('bottoms')"/> Bottoms</label>
+          <label class="filter-option"><input type="radio" name="cat" value="sets" onchange="setCategory('sets')"/> Sets</label>
+        </div>
+        <div class="filter-group">
+          <p class="filter-title">Price Range</p>
+          <label class="filter-option"><input type="radio" name="price" value="all" checked onchange="setPriceRange('all')"/> All Prices</label>
+          <label class="filter-option"><input type="radio" name="price" value="0-100" onchange="setPriceRange('0-100')"/> Under $100</label>
+          <label class="filter-option"><input type="radio" name="price" value="100-200" onchange="setPriceRange('100-200')"/> $100 – $200</label>
+          <label class="filter-option"><input type="radio" name="price" value="200+" onchange="setPriceRange('200+')"/> Over $200</label>
+        </div>
+        <div class="filter-group" style="border-bottom:none">
+          <p class="filter-title">Sort By</p>
+          <label class="filter-option"><input type="radio" name="sort" value="newest" checked onchange="setSort('newest')"/> Newest</label>
+          <label class="filter-option"><input type="radio" name="sort" value="price-asc" onchange="setSort('price-asc')"/> Price: Low to High</label>
+          <label class="filter-option"><input type="radio" name="sort" value="price-desc" onchange="setSort('price-desc')"/> Price: High to Low</label>
+          <label class="filter-option"><input type="radio" name="sort" value="rating" onchange="setSort('rating')"/> Best Rated</label>
+        </div>
+        <button onclick="resetFilters()" class="btn btn-outline btn-sm btn-block" style="margin-top:8px">Clear Filters</button>
+      </aside>
+
+      <!-- PRODUCT GRID -->
+      <div style="min-width:0">
+        <div id="no-results" style="display:none;text-align:center;padding:60px 20px">
+          <p style="font-family:var(--serif);font-size:24px;font-weight:700;margin-bottom:12px">No products found</p>
+          <p style="color:var(--muted);margin-bottom:24px">Try adjusting your filters.</p>
+          <button onclick="resetFilters()" class="btn btn-primary">Clear Filters</button>
+        </div>
+        <div class="products-grid" id="shop-grid"></div>
+        <div id="load-more-wrap" style="text-align:center;margin-top:48px;display:none">
+          <button onclick="loadMore()" class="btn btn-outline btn-lg" id="load-more-btn">
+            Load More
+            <span id="remaining-count" style="color:var(--muted);font-size:10px"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" style="font-family:var(--serif);font-size:22px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:16px">Arkedia</a>
+        <p style="font-size:13px;color:rgba(255,255,255,.38);line-height:1.8;max-width:260px;margin-bottom:24px">Curated fashion that blends modern sensibility with timeless elegance. For the woman who moves with intention.</p>
+        <div style="display:flex;gap:8px">
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a href="#" class="social-btn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.67a8.24 8.24 0 004.83 1.55V6.77a4.85 4.85 0 01-1.06-.08z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Shop</p>
+        <a href="shop.html" class="footer-link">New Arrivals</a>
+        <a href="shop.html?sort=popular" class="footer-link">Best Sellers</a>
+        <a href="shop.html?cat=dresses" class="footer-link">Dresses</a>
+        <a href="shop.html?cat=jackets" class="footer-link">Jackets & Coats</a>
+        <a href="shop.html?sale=true" class="footer-link" style="color:var(--gold)">Sale</a>
+      </div>
+      <div>
+        <p class="footer-col-title">Help</p>
+        <a href="contact.html" class="footer-link">Size Guide</a>
+        <a href="contact.html" class="footer-link">Shipping & Returns</a>
+        <a href="contact.html" class="footer-link">Track My Order</a>
+        <a href="contact.html" class="footer-link">FAQ</a>
+        <a href="contact.html" class="footer-link">Contact Us</a>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <a href="about.html" class="footer-link">About Arkedia</a>
+        <a href="about.html" class="footer-link">Sustainability</a>
+        <a href="about.html" class="footer-link">Careers</a>
+        <a href="about.html" class="footer-link">Press</a>
+      </div>
+    </div>
+    <!-- <div class="footer-subscribe">
+      <div>
+        <p class="footer-col-title" style="margin-bottom:4px">Stay in the Loop</p>
+        <p style="font-size:12px;color:rgba(255,255,255,.38)">New arrivals, exclusive offers, and style notes.</p>
+      </div>
+      <form id="footer-newsletter-form" class="footer-subscribe-form">
+        <input type="email" placeholder="Enter your email" required/>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div> -->
+    <div class="footer-bottom">
+      <p>© 2025 Arkedia. All rights reserved.</p>
+      <div style="display:flex;gap:24px">
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Privacy Policy</a>
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Terms of Service</a>
+        <a href="#" class="footer-link" style="margin:0;font-size:11px">Cookies</a>
+      </div>
+      <div style="display:flex;gap:6px">
+        <span class="payment-chip">VISA</span>
+        <span class="payment-chip">MC</span>
+        <span class="payment-chip">AMEX</span>
+        <span class="payment-chip">PayPal</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="mobile-bar">
+  <div class="mobile-bar-inner">
+    <a href="index.html" class="mobile-bar-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="shop.html" class="mobile-bar-btn active">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Shop
+    </a>
+    <button onclick="openCart()" class="mobile-bar-btn cart-btn" style="position:relative;background:none;border:none">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/></svg>
+      <span class="cart-badge">0</span>
+      Bag
+    </button>
+    <a href="about.html" class="mobile-bar-btn">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      About
+    </a>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+function updateWishlistBadge() {
+  const count = store.wishlist.length;
+  document.querySelectorAll('.wishlist-badge').forEach(el => {
+    el.textContent = count || '';
+    el.classList.toggle('show', count > 0);
+  });
+}
+const _origToggleWish = store.toggleWishlist.bind(store);
+store.toggleWishlist = function(id) { _origToggleWish(id); updateWishlistBadge(); };
+
+let activeCategory = 'all';
+let activePriceRange = 'all';
+let activeSort = 'newest';
+let visibleCount = 8;
+let isSaleFilter = false;
+
+function setCategory(cat) {
+  if (cat === 'sale') {
+    isSaleFilter = true;
+    activeCategory = 'all';
+  } else {
+    isSaleFilter = false;
+    activeCategory = cat;
+  }
+  visibleCount = 8;
+  syncPills(cat === 'sale' ? 'sale' : cat);
+  syncSidebarRadios('cat', cat === 'sale' ? 'all' : cat);
+  syncSidebarRadios('mob-cat', cat === 'sale' ? 'all' : cat);
+  updateBreadcrumb();
+  applyFilters();
+}
+
+function setPriceRange(range) {
+  activePriceRange = range;
+  visibleCount = 8;
+  applyFilters();
+  updateFilterBadge();
+}
+
+function setSort(sortVal) {
+  activeSort = sortVal;
+  const desktopSort = document.getElementById('desktop-sort');
+  if (desktopSort) desktopSort.value = sortVal;
+  syncSidebarRadios('sort', sortVal);
+  syncSidebarRadios('mob-sort', sortVal);
+  applyFilters();
+}
+
+function resetFilters() {
+  activeCategory = 'all';
+  activePriceRange = 'all';
+  activeSort = 'newest';
+  isSaleFilter = false;
+  visibleCount = 8;
+  syncPills('all');
+  syncSidebarRadios('cat', 'all');
+  syncSidebarRadios('price', 'all');
+  syncSidebarRadios('sort', 'newest');
+  syncSidebarRadios('mob-cat', 'all');
+  syncSidebarRadios('mob-price', 'all');
+  syncSidebarRadios('mob-sort', 'newest');
+  const desktopSort = document.getElementById('desktop-sort');
+  if (desktopSort) desktopSort.value = 'newest';
+  updateBreadcrumb();
+  updateFilterBadge();
+  applyFilters();
+}
+
+function syncPills(activeCat) {
+  const pills = ['all','dresses','jackets','tops','bottoms','sets','sale'];
+  pills.forEach(cat => {
+    const pill = document.getElementById('pill-' + cat);
+    if (pill) pill.classList.toggle('active', cat === activeCat);
+  });
+}
+
+function syncSidebarRadios(name, val) {
+  const radios = document.querySelectorAll(`input[name="${name}"]`);
+  radios.forEach(r => { r.checked = r.value === val; });
+}
+
+function updateBreadcrumb() {
+  const el = document.getElementById('breadcrumb-current');
+  const titleEl = document.getElementById('shop-title');
+  const catNames = {all:'Shop', dresses:'Dresses', jackets:'Jackets', tops:'Tops', bottoms:'Bottoms', sets:'Sets', sale:'Sale'};
+  const cat = isSaleFilter ? 'sale' : activeCategory;
+  if (el) el.textContent = catNames[cat] || 'Shop';
+  if (titleEl) titleEl.textContent = cat === 'all' ? 'Shop All' : catNames[cat];
+}
+
+function updateFilterBadge() {
+  const badge = document.getElementById('filter-badge');
+  if (!badge) return;
+  let count = 0;
+  if (activeCategory !== 'all' || isSaleFilter) count++;
+  if (activePriceRange !== 'all') count++;
+  if (activeSort !== 'newest') count++;
+  badge.textContent = count;
+  badge.style.display = count > 0 ? 'flex' : 'none';
+}
+
+function applyFilters() {
+  let filtered = PRODUCTS.slice();
+
+  // Sale filter
+  if (isSaleFilter) {
+    filtered = filtered.filter(p => p.originalPrice !== null && p.originalPrice !== undefined);
+  } else if (activeCategory !== 'all') {
+    filtered = filtered.filter(p => p.category === activeCategory);
+  }
+
+  // Price filter
+  if (activePriceRange === '0-100') {
+    filtered = filtered.filter(p => p.price < 100);
+  } else if (activePriceRange === '100-200') {
+    filtered = filtered.filter(p => p.price >= 100 && p.price <= 200);
+  } else if (activePriceRange === '200+') {
+    filtered = filtered.filter(p => p.price > 200);
+  }
+
+  // Sort
+  if (activeSort === 'price-asc') {
+    filtered.sort((a, b) => a.price - b.price);
+  } else if (activeSort === 'price-desc') {
+    filtered.sort((a, b) => b.price - a.price);
+  } else if (activeSort === 'rating') {
+    filtered.sort((a, b) => b.rating - a.rating);
+  }
+  // 'newest' = original order (by id)
+
+  const total = filtered.length;
+  const visible = filtered.slice(0, visibleCount);
+
+  const grid = document.getElementById('shop-grid');
+  const noResults = document.getElementById('no-results');
+  const loadMoreWrap = document.getElementById('load-more-wrap');
+  const countEl = document.getElementById('product-count');
+
+  if (countEl) countEl.textContent = total + ' product' + (total !== 1 ? 's' : '');
+
+  if (total === 0) {
+    if (grid) grid.innerHTML = '';
+    if (noResults) noResults.style.display = 'block';
+    if (loadMoreWrap) loadMoreWrap.style.display = 'none';
+    return;
+  }
+
+  if (noResults) noResults.style.display = 'none';
+  if (grid) {
+    grid.innerHTML = visible.map((p, i) => renderProductCard(p, { delay: (i % 4) * 0.06 })).join('');
+  }
+
+  const remaining = total - visibleCount;
+  if (loadMoreWrap) {
+    loadMoreWrap.style.display = remaining > 0 ? 'block' : 'none';
+    const remainEl = document.getElementById('remaining-count');
+    if (remainEl) remainEl.textContent = remaining > 0 ? `(${remaining} more)` : '';
+  }
+
+  initReveal();
+  updateFilterBadge();
+}
+
+function loadMore() {
+  visibleCount += 4;
+  applyFilters();
+}
+
+function openMobileFilter() {
+  const drawer = document.getElementById('mobile-filter-drawer');
+  if (drawer) { drawer.style.display = 'block'; document.body.classList.add('no-scroll'); }
+}
+
+function closeMobileFilter() {
+  const drawer = document.getElementById('mobile-filter-drawer');
+  if (drawer) { drawer.style.display = 'none'; document.body.classList.remove('no-scroll'); }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Read URL params
+  const params = new URLSearchParams(window.location.search);
+  const catParam = params.get('cat');
+  const saleParam = params.get('sale');
+  const sortParam = params.get('sort');
+
+  if (saleParam === 'true') {
+    isSaleFilter = true;
+    syncPills('sale');
+  } else if (catParam) {
+    activeCategory = catParam.toLowerCase();
+    syncPills(activeCategory);
+    syncSidebarRadios('cat', activeCategory);
+    syncSidebarRadios('mob-cat', activeCategory);
+  }
+
+  if (sortParam === 'popular') {
+    activeSort = 'rating';
+    const desktopSort = document.getElementById('desktop-sort');
+    if (desktopSort) desktopSort.value = 'rating';
+    syncSidebarRadios('sort', 'rating');
+    syncSidebarRadios('mob-sort', 'rating');
+  }
+
+  updateBreadcrumb();
+  applyFilters();
+  handleNewsletter('footer-newsletter-form');
+  updateWishlistBadge();
+});
+</script>
+</body>
+</html>
