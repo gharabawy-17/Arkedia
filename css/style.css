@@ -542,7 +542,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .cols-team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 @media (max-width: 767px) { .cols-team { grid-template-columns: 1fr 1fr; gap: 16px; } }
 
-/* Press row */
+/* Press row product details is damaged in responsive handle it and ensure that every thig in responsive is good */
 .cols-press { display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; }
 
 /* Section header flex */
@@ -606,3 +606,68 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .ann-inner:hover { animation-play-state: paused; }
 
 /* cols-cat is always a grid — responsive breakpoints handle the column count */
+
+/* ════════════════════════════
+   PRODUCT DETAIL — RESPONSIVE FIXES
+   ════════════════════════════ */
+
+/* CRITICAL: gallery must NOT be sticky when the layout stacks on mobile.
+   The base rule (line 269) sets sticky for all breakpoints; override it here. */
+@media (max-width: 1023px) {
+  .product-gallery {
+    position: relative;
+    top: auto;
+  }
+}
+
+/* On mobile, reveal-right must animate vertically — a horizontal translateX
+   can break past overflow-x:hidden in some browsers and cause a scroll bar. */
+@media (max-width: 1023px) {
+  .reveal-right {
+    transform: translateY(24px);
+  }
+  .reveal-right.up {
+    transform: translateY(0);
+  }
+}
+
+/* Breadcrumb: wrap when product names are long on small screens */
+@media (max-width: 639px) {
+  .breadcrumb {
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+}
+
+/* Reduce the tabs-section top margin on mobile (inline style is 56px — override it) */
+@media (max-width: 767px) {
+  #product-tabs-section {
+    margin-top: 32px !important;
+  }
+}
+
+/* Gallery thumbs: slightly smaller on very small screens */
+@media (max-width: 479px) {
+  .gallery-thumb {
+    width: 60px;
+    height: 72px;
+  }
+}
+
+/* Product info: price row shouldn't overflow at small viewport widths */
+@media (max-width: 479px) {
+  .size-grid {
+    gap: 6px;
+  }
+  .size-option {
+    width: 46px;
+    height: 40px;
+    font-size: 11px;
+  }
+}
+
+/* Prevent html from causing horizontal scroll (body overflow-x:hidden
+   alone is not always respected by all browsers as the document scroller) */
+html {
+  overflow-x: hidden;
+}
